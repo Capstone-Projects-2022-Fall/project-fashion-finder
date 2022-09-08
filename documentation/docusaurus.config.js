@@ -22,7 +22,7 @@ const main_template_jira_scripts = () => {
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   /*TODO: Change to your project's title and tagline*/
-  title: 'CIS 4398 Documentation Template',
+  title: 'Fashion Finder',
   tagline: 'Owls are cool',
   /*Unless you move this website to a seperate repo don't change url and baseurl.*/
   url: 'https://'+process.env.ORG_NAME+'.github.io/',
@@ -98,7 +98,7 @@ const config = {
     ({
       navbar: {
         /*TODO: Change to your project's title*/
-        title: 'My Site',
+        title: 'Fashion Finder',
         logo: {
           alt: 'My Site Logo',
           src: logo,

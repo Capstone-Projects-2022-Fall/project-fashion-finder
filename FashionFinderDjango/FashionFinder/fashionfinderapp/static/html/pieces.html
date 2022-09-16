@@ -1,0 +1,16 @@
+<html>
+    <title> Fashion Finder </title>
+
+    <body> 
+
+     <ul>
+        {% for piece in pieces %}
+            <li>
+                {{piece.title}},  {{piece.body}}
+            </li>
+        {% endfor %}
+     </ul>
+
+
+    </body>
+</html>

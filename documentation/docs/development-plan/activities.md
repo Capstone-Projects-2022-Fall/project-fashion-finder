@@ -3,3 +3,42 @@ sidebar_position: 1
 ---
 
 # Activities
+
+## Requirements Gathering
+### Functional Requirements
+- Fashion Finder will have a scrollable recommended clothing content feed
+     - Content will be pulled from the Pinterest API
+     - Users will be able to like content in the feed and it will be saved to their account
+     - The more content a user likes the better Fashion Finder will tailor recommendations to that user
+- Fashion Finder will have an upload picture feature 
+     - Users can upload clothing that is already in their wardrobe that they like 
+     - Users can upload clothing that they found online and like
+     - The clothing users upload will be used the same way liked clothing from the content is used to further tailor suggestions shown to that specific user.
+- Fashion Finder will have a UI to provide outfit or clothing suggestions to the user
+     - Suggestions will be based off of content liked on the content feed
+     - Suggestions will be based off of content that has been uploaded by the user
+     - The more content that a user uploads the better we can tailor results to that user
+     - Users can either get suggestions on specific pieces of clothing, or users can get suggestions on entire outfits.
+     - An outfit pairing or matching feature will available to the user, so they can find other pieces of clothing that go with items they already own.
+- Fashion Finder will provide a price analysis tool to the user
+     - The price analysis tool will be based off prices that are available on StockX
+     - All outfit suggestions will be cross-checked with StockX to see if that specific item is available on Stockx.com
+     - If an item is available on StockX a UI will be shown to show all recent purchases of that item, a price analysis chart, 12-month trade range, 3-month trade range, volitality, and price premium of that specific item. 
+### Nonfunctional Requirements
+- Fashion Finder will have a user-friendly interface 
+     - The user interface will be easily navigatable, and will give clear instructions from the beginning on how a user can recieve the best outfit suggestions.
+     - If any errors do occur the user will be prompted of the error
+- Fashion Finder will be a progressive web application
+     - Fashion Finder will have a easy to use UI on a web browser and a mobile app
+- Fashion Finder will have price tracking for users that an item has liked and is interested in buying
+     - When an item that a user has liked drops to a price that is recognized as a reasonable price by our price analysis tool the user will recieve a notification that it is a good time to buy that product
+     - All price tracking will be saved to our database and will begin as soon as a user likes an item suggesting that they might purchase that item.
+- Fashion Finder will use machine learning to constantly recreate a users content feed, and suggestion feed
+     - The more pictures that a user either uploads or likes on the infinite Pinterest content feed, the further there results will be tailored based off that data
+     - Individual clothing or wardrobe suggestions will be constantly different as long as a user continues to add liked clothing to their account.
+## Top-Level Design
+
+## Detailed Design
+
+## Tests
+

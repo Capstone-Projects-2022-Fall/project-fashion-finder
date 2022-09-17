@@ -36,6 +36,10 @@ sidebar_position: 1
 - Fashion Finder will use machine learning to constantly recreate a users content feed, and suggestion feed
      - The more pictures that a user either uploads or likes on the infinite Pinterest content feed, the further there results will be tailored based off that data
      - Individual clothing or wardrobe suggestions will be constantly different as long as a user continues to add liked clothing to their account.
+
+     In order to create the requirements listed in this document our team had to gather information relating to the issues an individual commonly faces when trying to find new clothing and outfit suggestions.  Firstly a user typically shops on multiple websites, therefore the suggestions on each of those websites are completely different and typically based just off the last few items that they have browsed.  For this reason Fashion Finder takes a different approach by collecting data and saving it to a users account on every item that they have liked for the time-being on their Fashion Finder account.  Another issue users typically face is finding items that go with a specific item that they already own.  To resolve this issue Fashion Finder provides a feature to upload clothing that they own and add that to their Fashion Finder account wardrobe.  Based off the items they already own suggestions can be made to match their current clothing. 
+     From the analysis our group conducted users also face issues when trying to find the best price of an item.  For the majority of individuals finding a cheap and cost efficient way to shop is something that they are all interested in.  For this reason Fashion Finder provides a price analysis tool for users to know how often the price of an item flucuates and to alert them on the best possible time to purchase an item.  
+
 ## Top-Level Design
 
 ## Detailed Design

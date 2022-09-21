@@ -42,8 +42,18 @@ sidebar_position: 1
 &nbsp;    From the analysis our group conducted users also face issues when trying to find the best price of an item.  For the majority of individuals finding a cheap and cost efficient way to shop is something that they are all interested in.  For this reason Fashion Finder provides a price analysis tool for users to know how often the price of an item flucuates and to alert them on the best possible time to purchase an item.  
 
 ## Top-Level Design
+1. Create progressive web app UI
+2. Develop UI for Web Browser functionality
+3. Create UI for Mobile Device Functionality
+4. Make UI for creating login/register system
+5. Create layout for content feed where users can like items
+6. Create layout for suggestions feed that will be recommended to users
+7. Create layout for price analysis 
+8. Notifications for price alerts
+9. Create an account user interface so users can removed and see their liked items
 
 ## Detailed Design
+
 
 ## Tests
 

@@ -57,3 +57,14 @@ sidebar_position: 1
 
 ## Tests
 
+### Unit Tests
+
+The Python Standard Library unittest module will be used to validate template rendering.
+
+### Integration
+
+The Postman API platform will be used to test HTTP requests.
+
+### Acceptance
+
+Use Case Acceptance testing will be conducted to evaluate user experience.

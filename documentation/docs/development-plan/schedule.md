@@ -28,14 +28,6 @@ gantt
     Django Unit tests: des9, 2022-10-09, 3d
     Manual testing: des10, after des9, 2d
     Bug fixes: after des10, 4d
-    %% Future task 4             :         des6, after des5, 5d
-    %% Completed task in the critical line :crit, done, 2022-10-10,24h
-    %% Implement parser and jison          :crit, done, after des1, 2d
-    %% Create tests for parser             :crit, active, 3d
-    %% Future task in critical line        :crit, 5d
-    %% Create tests for renderer           :2d
-    %% Add to mermaid                      :1d
-
 
 section Demo Dates
    Milestone Demo 1                 :milestone, 2022-10-18, 0d

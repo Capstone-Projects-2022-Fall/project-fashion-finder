@@ -20,6 +20,9 @@ When a user first logs in it will make a request to the **server** where getUser
 
 ![Blank diagram](https://user-images.githubusercontent.com/89498580/192659599-5811a552-537f-4d47-81b0-d8c7803ed1e7.png)
 
+## Dataflow Diagram
+![DataFlowFashionFinder](https://user-images.githubusercontent.com/89498580/192660871-c13d66c9-9837-454f-a297-a3c7fd924e06.png)
+
 
 Sequence diagrams showing the data flow for _all_ use cases. One sequence diagram corresponds to one use case and different use cases should have different corresponding sequence diagrams.
 

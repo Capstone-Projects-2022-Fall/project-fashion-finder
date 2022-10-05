@@ -1,17 +1,16 @@
-
 ---
-sidebar_position: 3
+sidebar_position: 1
 ---
 
 # API Specifications
 
 API Documentation Document: 
 
-Classes - Web Interface
-HomePage
-Class Purpose: This is the first page that users will see when they visit the web page.  The purpose of this page is to give the user an understanding of the website, and to allow them to login or register to get access to the full functionality. 
+## Classes - Web Interface
+### HomePage
+ Class Purpose: This is the first page that users will see when they visit the web page.  The purpose of this page is to give the user an understanding of the website, and to allow them to login or register to get access to the full functionality. 
 
-Methods:
+#### Methods:
 signUp()
 Purpose: to allow a user to login to their account
 Pre-Condition: The user must have an account
@@ -28,25 +27,39 @@ Return Values: none
 Exceptions Thrown: user already exists
 
 
-SignUp
+### SignUp
+
 Class Purpose: This class is used for a user to sign up for an account.  They will enter their email, password, phoneNumber, firstName, and lastName to create their account. 
-Data Fields:
-Email
+
+#### Data Fields:
+
+##### Email
+
 Type: string
+
 Purpose: this is used to set the users email which will also be used for login.
-Password
+
+##### Password
+
 Type: string
+
 Purpose: sets the password for account login
-PhoneNumber
+
+##### PhoneNumber
 Type: string
+
 Purpose:  a phone number to be held under the account
-firstName
+
+##### firstName
+
 Type: string
 Purpose: to have a name linked to each account
-lastName:
+
+##### lastName:
 Type: string
 Purpose: to have a name linked to each account
-Methods:
+
+#### Methods:
 createAccount(email, password, phoneNumber, firstName, lastName)
 Purpose:  this is to create an account for a user and store all of the information into the database.
 Pre-Condition: valid email address (not used previously)

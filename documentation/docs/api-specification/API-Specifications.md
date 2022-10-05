@@ -18,7 +18,7 @@ Post-Condition: none
 Parameters:  email, password
 Return Values: none
 Exceptions Thrown: Invalid Credentials
-signUp()
+signIn()
 Purpose: to allow a user with an existing account to login
 Pre-Condition:  the user does not have an account
 Post Condition: the user will be notified through email of account creation.
@@ -65,4 +65,12 @@ Purpose:  this is to create an account for a user and store all of the informati
 Pre-Condition: valid email address (not used previously)
 Post Condition: Verification email
 
+### Account
+Class Purpose: The Account class corresponds to a particular user. Account settings such as the username, password, email will be associated with an account upon sign-up, and linked with a unique userID.
 
+#### Data Fields:
+
+##### userID
+Type: Int
+
+Purpose: Primary Key

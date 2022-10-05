@@ -17,5 +17,6 @@ When a user first logs in it will make a request to the **server** where getUser
 
 
 
+![Database Entity-relationship Diagram](https://user-images.githubusercontent.com/71922448/194051565-f8a31cca-1d97-4e74-bd4d-dc2efda9b699.jpg)
 
 

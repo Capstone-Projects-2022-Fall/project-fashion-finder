@@ -40,3 +40,18 @@ Open the WSL command prompt, then run the following commands
 ## Run Server
 
 * From the `FashionFinderDjango` directory, run `python manage.py runserver 8000` to run the development Django server on port 8000
+
+# Connect to Web Server
+
+## Download a FTP Software
+Download a File Transfer Protocol software such as WinSCP or FileZilla
+
+## Obtain the PEM Security Key 
+This is provided to admins that are permitted to make edits on the web server
+
+## Connect to EC2 Instance
+In WinSCP click : 'New Session'
+For File Protocol select 'SFTP'
+For Host Name Enter: ec2-54-165-250-194.compute-1.amazonaws.com
+For User Name Enter: ec2-user
+Then go to Advanced > Authentication > Private Key File > upload the PEM key provided

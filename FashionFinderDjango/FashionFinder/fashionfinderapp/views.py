@@ -1,8 +1,18 @@
 # from http.client import HTTPResponse
 # from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
+from django.contrib.auth import authenticate, login, logout
+from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 import fashionfinderapp.utils.utils
+
+from django.http import HttpResponseRedirect
+import json
+
+from fashionfinderapp.models import *
+from fashionfinderapp.forms import *
 # Create your views here.
 
 
@@ -34,3 +44,48 @@ def pieces(request):
     return HttpResponse(
         template.render(context, request),
         content_type='text/html')
+
+#@login_required
+def login(request):
+    #page for logging in user
+
+    username = request.Post['username']
+    password = request.Post['password']
+    user = authenticate(request, username = username, password = password)
+    if user is not None:
+        login(request, user)
+            #return home page
+    else:   
+        return #login page, invalid login message
+
+def logout_view(request):
+    logout(request)
+    #return login page, logout message
+
+def register(request):
+    response_data = {}
+
+    context_dict = { 'form': None }
+    form = RegistrationForm()
+
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    elif request.method == "GET":
+        context_dict['form'] = form
+    elif request.method == "POST":
+        form = RegistrationForm(request.POST)
+        context_dict['form'] = form
+        if form.is_valid():
+            form.save()
+
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            response_data['error'] = json.dumps(form.errors)
+
+    return HttpResponse(render_to_string('registration/register.html', {
+        "json": json.dumps(response_data)
+    }))

@@ -5,8 +5,9 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "watch": "./node_modules/.bin/webpack-cli --watch",
+    "build": "./node_modules/.bin/webpack-cli",
+    "build_prod": "./node_modules/.bin/webpack-cli -p"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,12 @@
     "eslint": "^8.25.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "core-js": "^3.6.4",
+    "intersection-observer": "^0.12.0",
+    "promise-polyfill": "^8.2.3",
+    "react-redux": "^7.2.8",
+    "redux": "^4.0.5",
+    "unfetch": "^4.1.0"
   }
 }

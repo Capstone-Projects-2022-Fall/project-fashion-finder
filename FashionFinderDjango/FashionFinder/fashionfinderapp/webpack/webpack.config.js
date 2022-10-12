@@ -2,7 +2,9 @@ const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
+  mode:'development',
   entry: {
+      index: path.resolve('jsx/index.jsx'),
       register: path.resolve('jsx/register.jsx'),
   },
   module: {

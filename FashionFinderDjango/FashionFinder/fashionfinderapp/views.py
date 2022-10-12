@@ -45,6 +45,16 @@ def pieces(request):
         template.render(context, request),
         content_type='text/html')
 
+def user(request, user_id=None):
+    u = User.objects.filter(id=user_id).first()
+    return HttpResponse(render_to_string('user.html',{
+        "json": json.dumps({
+            "current_user_id": json.dumps(request.user.id),
+            "user_id": json.dumps(u.id),
+            "user_name": json.dumps(u.username)
+            })
+    }))
+
 #@login_required
 def login(request):
     #page for logging in user
@@ -69,7 +79,7 @@ def register(request):
     form = RegistrationForm()
 
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/home/')
     elif request.method == "GET":
         context_dict['form'] = form
     elif request.method == "POST":

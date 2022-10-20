@@ -2,6 +2,8 @@ import pymongo
 import pandas as pd
 from PIL import Image
 import io
+OLD_MONGO_HOST = 'mongodb+srv://cluster0.quth27s.mongodb.net/test'
+NEW_MONGO_HOST = 'mongodb+srv://cluster0.glnjpi9.mongodb.net/test'
 def get_db_handle(db_name, host, port, username, password):
 
     client = pymongo.MongoClient(host=host,
@@ -14,7 +16,7 @@ def get_db_handle(db_name, host, port, username, password):
 
 def get_db_default_handle():
     db_handle, client = get_db_handle(db_name='fashion_finder_db',
-                                      host='mongodb+srv://cluster0.quth27s.mongodb.net/test',
+                                      host=NEW_MONGO_HOST,
                                       username='django_db_user',
                                       password='Ko4mNy6A5JEaST', # TODO: make secret
                                       port=27017)

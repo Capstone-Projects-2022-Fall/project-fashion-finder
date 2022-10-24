@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 import fashionfinderapp.utils.utils
-
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 import json
 
@@ -16,9 +16,9 @@ from fashionfinderapp.forms import *
 # Create your views here.
 
 
-def index(request):
+def index(request, *args, **kwargs):
     # Default Page
-    return HttpResponse("Hello, world. Welcome to fashion finder")
+    return render(request, "html/index.html")
 
 
 def home(request):

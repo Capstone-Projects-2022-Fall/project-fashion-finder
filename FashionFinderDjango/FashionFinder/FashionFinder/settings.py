@@ -125,7 +125,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    'fashionfinderapp/webpack/'
+    'fashionfinderapp/static/'
 ]
 
 # Default primary key field type

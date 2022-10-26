@@ -18,7 +18,7 @@ from fashionfinderapp.forms import *
 
 def index(request, *args, **kwargs):
     # Default Page
-    return render(request, "html/index.html")
+    return HttpResponse(render_to_string('index.html'))
 
 
 def home(request):

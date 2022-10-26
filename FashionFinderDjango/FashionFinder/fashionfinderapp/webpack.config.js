@@ -2,7 +2,10 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: path.resolve('/static/jsx/index.jsx'),
+    register: path.resolve('/static/jsx/register.jsx'),
+  },
   output: {
     path: path.resolve(__dirname, "./static/fashionfinder"),
     filename: "[name].js",

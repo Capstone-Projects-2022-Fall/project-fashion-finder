@@ -5,7 +5,9 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 module.exports = {
   entry: {
     index: path.resolve('/static/jsx/index.jsx'),
+    home: path.resolve('static/jsx/home.jsx'),
     register: path.resolve('/static/jsx/register.jsx'),
+    navbar: path.resolve('/static/jsx/navbar.jsx'),
   },
   mode: 'development',
   output: {

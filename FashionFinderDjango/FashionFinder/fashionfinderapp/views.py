@@ -16,11 +16,9 @@ from fashionfinderapp.forms import *
 # Create your views here.
 
 
-def index(request, *args, **kwargs):
+def index(request):
     # Default Page
-    t = get_template('html/index.html')
-    html = t.render()
-    return HttpResponse(html)
+    return HttpResponse(render_to_string('html/index.html'))
 
 
 def home(request):

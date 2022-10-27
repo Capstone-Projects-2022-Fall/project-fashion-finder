@@ -3,7 +3,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login, logout
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 import fashionfinderapp.utils.utils
@@ -18,7 +18,9 @@ from fashionfinderapp.forms import *
 
 def index(request, *args, **kwargs):
     # Default Page
-    return HttpResponse(render_to_string('index.html'))
+    t = get_template('html/index.html')
+    html = t.render()
+    return HttpResponse(html)
 
 
 def home(request):

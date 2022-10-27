@@ -1,11 +1,13 @@
 const path = require("path");
 const webpack = require("webpack");
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: {
     index: path.resolve('/static/jsx/index.jsx'),
     register: path.resolve('/static/jsx/register.jsx'),
   },
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, "./static/fashionfinder"),
     filename: "[name].js",
@@ -13,9 +15,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js|.jsx$/,
+        test: /\.m?jsx?$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        use: [{loader: "babel-loader", options: {
+          "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+          ],
+          "plugins": [
+            ["@babel/plugin-transform-react-jsx", { "pragma":"React.createElement", "pragmaFrag":"React.Fragment" }],
+            ["@babel/plugin-proposal-class-properties", { "loose": true }],
+            ["@babel/plugin-proposal-private-methods", { "loose": true }],
+            ["@babel/plugin-proposal-private-property-in-object", { "loose": true }],
+            "@babel/plugin-proposal-optional-chaining"
+          ]
+        }}]
       },
       {
         test: /\.css$/,
@@ -27,11 +41,12 @@ module.exports = {
   optimization: {
     minimize: true,
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("development"),
-      },
-    }),
-  ],
+  plugins: [new ESLintPlugin({})],
+  resolve: {
+    alias: {
+      jsx: path.resolve('jsx/'),
+    },
+    extensions: [".js", ".jsx", ".json"],
+    mainFields: ["browser", "module", "main", "style"]
+  },
 };

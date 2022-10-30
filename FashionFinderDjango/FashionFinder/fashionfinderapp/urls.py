@@ -16,5 +16,6 @@ urlpatterns = [
 
     path('user/<int:user_id>/', views.user),
     path('users/<int:user_id>', views.user),
+    path('upload/', views.predict),
 
 ]

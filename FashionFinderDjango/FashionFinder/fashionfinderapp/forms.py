@@ -26,3 +26,7 @@ class RegistrationForm(forms.ModelForm):
             user.save()
 
         return user
+
+class UploadImgForPredMicroserviceForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()

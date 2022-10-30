@@ -7,12 +7,12 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 import fashionfinderapp.utils.utils
-
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 import json
 
 from fashionfinderapp.models import *
-from fashionfinderapp.forms import *
+from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm
 # Create your views here.
 
 
@@ -99,3 +99,15 @@ def register(request):
     return HttpResponse(render_to_string('registration/register.html', {
         "json": json.dumps(response_data)
     }))
+@login_required
+def predict(request):
+
+    template = loader.get_template('predict.html')
+    context = {}
+    form = UploadImgForPredMicroserviceForm()
+    return render(request, 'predict.html', {'form': form} )
+
+@login_required
+def colors(request):
+    form = UploadImgForPredMicroserviceForm()
+    return render(request, 'color.html', {'form': form} )

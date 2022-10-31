@@ -1,5 +1,6 @@
 # from http.client import HTTPResponse
 # from django.shortcuts import render
+import imp
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login, logout
@@ -10,9 +11,14 @@ import fashionfinderapp.utils.utils
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 import json
+from PIL import Image
+import io
+from django.conf import settings as django_settings
+import os
 
 from fashionfinderapp.models import *
 from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm
+from ImgPredMicroservice.upload_piece_to_mongo import generate_recommendations
 # Create your views here.
 
 
@@ -111,3 +117,40 @@ def predict(request):
 def colors(request):
     form = UploadImgForPredMicroserviceForm()
     return render(request, 'color.html', {'form': form} )
+
+
+# Save the mongo record to 
+def save_mongo_img_data_to_static_dir(rec):
+    img = Image.open(io.BytesIO(rec['img_data']))
+    f_name = "%s.jpg" % rec['_id']
+    f_path = os.path.join(django_settings.STATIC_ROOT, f_name)
+    img.save(f_path)
+    print("saved")
+    del rec['img_data']
+    rec['id'] = rec['_id']
+    del rec['_id']
+    return rec
+
+# def get_record_id(rec):
+    # return rec['_id']
+
+@login_required
+def recommend(request):
+    if(request.method == 'GET'):
+        recs = generate_recommendations(request.user.id, n=10)
+        for rec in recs:
+            # print(rec)
+            break
+        print(type(recs))
+        recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+        # ids = [get_record_id(rec) for rec in recs]
+        # print(thinned_ids)
+        
+        context = {'recs':recs}
+        template = loader.get_template('recs.html')
+        return HttpResponse(
+            template.render(context, request),
+            content_type='text/html')
+
+    else:
+        return HttpResponse(400)

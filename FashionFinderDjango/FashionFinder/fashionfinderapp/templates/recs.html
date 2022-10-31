@@ -1,0 +1,19 @@
+{% load static %}
+<div class="container">
+    <h2 class="title">Upload</h2>
+	IDS: {{ids}}
+	<ul>
+		{% for rec in recs %}
+		<li>
+			{{rec.descriptor}}
+			{{rec.labels}}
+			{{rec.hex_codes}}
+			<img src= "/static/{{rec.id}}.jpg"> </img>
+			{% comment %} {{rec.image_data}} {% endcomment %}
+			{% comment %} <img src="data:image/jpeg;base64,{{rec.image_data}}"> {% endcomment %}
+		</li>
+		{% endfor %}
+	</ul>
+	
+
+</div>

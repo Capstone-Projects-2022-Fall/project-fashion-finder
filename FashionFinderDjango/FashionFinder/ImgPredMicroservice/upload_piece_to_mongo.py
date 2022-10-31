@@ -31,7 +31,7 @@ def insert_user_fashion_piece(mongo_doc):
 		m_id = None
 	return m_id
 
-def generate_recommendations(user_id, n = 10):
+def get_wardrobe(user_id, n = 10):
 	db_handle, client = get_db_default_handle()
 	db = client.fashion_finder_db
 
@@ -40,3 +40,68 @@ def generate_recommendations(user_id, n = 10):
 
 	user_pieces = user_collection.find({'user_django_id':user_id})
 	return user_pieces
+
+
+
+def get_recommendations(user_id, n = 10):
+	db_handle, client = get_db_default_handle()
+	db = client.fashion_finder_db
+
+	user_collection = db.UserFashionPiece
+	recs_collection = db.LabeledFashionPiece
+
+	user_pieces = user_collection.find({'user_django_id' : user_id})
+	user_piece_rec = user_pieces[0]
+	labels = user_piece_rec['labels']
+	rgb_0 = user_piece_rec['rgb_0']
+	print(rgb_0)
+	print(labels)
+	# recs_collection.find({'$and': [
+	# 	'labels':
+	# ]})
+
+	# We want a recommendation algorithm that finds clothing with similar labels and 
+	# satisfies the following condition
+	#
+	#
+	#
+	#
+	# rec_pieces = recs_collection.find({"labels":
+	# 									{"$elemMatch": 
+	# 										{"$in": labels}
+	# 									}
+	# 								})
+									
+	# rec_pieces = recs_collection.find({"rgb_0.0":36})
+	
+	# rec_pieces = recs_collection.find({"rgb_0.0":{
+	# 									"$and":[
+	# 										{"$lt":41},
+	# 										{"$gt":31},
+	# 									]
+	# 								}})
+	# Final all pieces between 31 and 41 red value for rgb_0
+	# rec_pieces = list(recs_collection.find({"$and": [
+	# 									{"rgb_0.0": {"$lt":33}},
+	# 									{"rgb_0.0": {"$gt":31}},
+
+	# 								]}))
+
+	delta = 10 # Allow for 20 units of variation in each piece
+
+	rec_pieces = recs_collection.find({"$and": [
+									{"$and": [
+										{"rgb_0.0": {"$lt":rgb_0[0] + delta}},
+										{"rgb_0.0": {"$gt":rgb_0[0] - delta}},
+										{"rgb_0.1": {"$lt":rgb_0[1] + delta}},
+										{"rgb_0.1": {"$gt":rgb_0[1] - delta}},
+										{"rgb_0.2": {"$gt":rgb_0[2] + delta}},
+										{"rgb_0.2": {"$gt":rgb_0[2] - delta}},
+									]},
+									{"labels":
+										{"$elemMatch": 
+											{"$in": labels}
+										}
+									}
+								]})
+	return rec_pieces, user_piece_rec

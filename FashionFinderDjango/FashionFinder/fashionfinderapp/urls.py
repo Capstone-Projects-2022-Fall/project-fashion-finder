@@ -19,6 +19,7 @@ urlpatterns = [
     path('user/<int:user_id>/', views.user),
     path('users/<int:user_id>', views.user),
     path('upload/', views.predict),
-    path('wardrobe/', views.recommend),
+    path('wardrobe/', views.wardrobe),
+    path('recommendations/', views.rec),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

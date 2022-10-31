@@ -18,7 +18,7 @@ import os
 
 from fashionfinderapp.models import *
 from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm
-from ImgPredMicroservice.upload_piece_to_mongo import generate_recommendations
+from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations
 # Create your views here.
 
 
@@ -135,9 +135,9 @@ def save_mongo_img_data_to_static_dir(rec):
     # return rec['_id']
 
 @login_required
-def recommend(request):
+def wardrobe(request):
     if(request.method == 'GET'):
-        recs = generate_recommendations(request.user.id, n=10)
+        recs = get_wardrobe(request.user.id, n=10)
         for rec in recs:
             # print(rec)
             break
@@ -154,3 +154,23 @@ def recommend(request):
 
     else:
         return HttpResponse(400)
+
+def rec(request):
+    if(request.method == 'GET'):
+        recs, user_piece_rec = get_recommendations(request.user.id, n=10)
+        for rec in recs:
+            print(rec)
+            break
+        # print(type(recs))
+        user_piece_rec = save_mongo_img_data_to_static_dir(user_piece_rec)
+        recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+        # ids = [get_record_id(rec) for rec in recs]
+        # print(thinned_ids)
+        
+        context = {'recs':recs, 'user_piece_rec':user_piece_rec}
+        template = loader.get_template('recs.html')
+        return HttpResponse(
+            template.render(context, request),
+            content_type='text/html')
+    else:
+        return HttpResponse(400)   

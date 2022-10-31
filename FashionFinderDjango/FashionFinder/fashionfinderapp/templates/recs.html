@@ -3,6 +3,15 @@
     <h2 class="title">Upload</h2>
 	IDS: {{ids}}
 	<ul>
+
+		{%if user_piece_rec is not None%}
+			{{user_piece_rec.descriptor}}
+			{{user_piece_rec.labels}}
+			{{user_piece_rec.hex_code}}
+			<img src= "/static/{{user_piece_rec.id}}.jpg"> </img>
+
+		{%endif%}
+
 		{% for rec in recs %}
 		<li>
 			{{rec.descriptor}}

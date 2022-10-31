@@ -23,3 +23,4 @@ FashionFinderVirtualEnv/
 .env.production.local
 node_modules
 FFVenv/*
+FashionFinderDjango/FashionFinder/fashionfinderapp/static/*

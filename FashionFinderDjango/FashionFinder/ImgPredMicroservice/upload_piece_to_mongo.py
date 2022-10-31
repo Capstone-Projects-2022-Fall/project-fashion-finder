@@ -87,8 +87,18 @@ def get_recommendations(user_id, n = 10):
 
 	# 								]}))
 
-	delta = 10 # Allow for 20 units of variation in each piece
+	delta = 20 # Allow for 20 units of variation in each piece
 
+	rgb_0_0_match_query = {"$and": [
+		{"rgb_0.0": {"$lt":rgb_0[0] + delta}},
+		{"rgb_0.0": {"$gt":rgb_0[0] - delta}},
+		{"rgb_0.1": {"$lt":rgb_0[1] + delta}},
+		{"rgb_0.1": {"$gt":rgb_0[1] - delta}},
+		{"rgb_0.2": {"$gt":rgb_0[2] + delta}},
+		{"rgb_0.2": {"$gt":rgb_0[2] - delta}},
+	]}
+	if "Dress" in labels:
+		rec_labels = "Blazer"
 	rec_pieces = recs_collection.find({"$and": [
 									{"$and": [
 										{"rgb_0.0": {"$lt":rgb_0[0] + delta}},
@@ -100,7 +110,7 @@ def get_recommendations(user_id, n = 10):
 									]},
 									{"labels":
 										{"$elemMatch": 
-											{"$in": labels}
+											{"$in": [rec_labels]}
 										}
 									}
 								]})

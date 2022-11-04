@@ -9,7 +9,7 @@ const style = {
         zIndex: 1,
         width: '100%',
 
-        backgroundColor: '#00ffc1',
+        backgroundColor: '#00ff',
         color: 'black',
         padding: '5px',
         fontFamily: 'Arial',
@@ -81,11 +81,11 @@ const Navbar = ({children, loggedIn: _loggedIn}) => {
     return <>
         <header className={isActive ? "header header-active" : "header"}>
             <nav className="navbar">
-                <a href="/" className="nav-logo" onClick={redirect}>Reci.py</a>
+                <a href="/" className="nav-logo" onClick={redirect}>Fashion Finder</a>
                 <ul className={isActive ? "nav-menu active" : "nav-menu"}>
                     {loggedIn && <>
                     <li className="nav-item">
-                        <a href="/recipe/new" className="nav-link">New Recipe</a>
+                        <a href="/upload/new" className="nav-link">New Upload</a>
                     </li>
                     <li className="nav-item">
                         <a href="/profile" className="nav-link">Profile</a>
@@ -96,6 +96,9 @@ const Navbar = ({children, loggedIn: _loggedIn}) => {
                     </>}
                     {!loggedIn && <>
                     <li className="nav-item">
+                        <a href="/accounts/login/" className="nav-link">Upload Photo</a>
+                    </li>
+                    <li className="nav-item">
                         <a href="/accounts/login/" className="nav-link">Log In</a>
                     </li>
                     <li className="nav-item">
@@ -103,7 +106,7 @@ const Navbar = ({children, loggedIn: _loggedIn}) => {
                     </li>
                      </>}
                 </ul>
-                <div className={isActive ? "ff active" : "ff"} onClick={toggleClass}>
+                <div className={isActive ? "hamburger active" : "hamburger"} onClick={toggleClass}>
                     <span className="bar"></span>
                     <span className="bar"></span>
                     <span className="bar"></span>

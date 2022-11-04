@@ -1,6 +1,6 @@
 from django.test import Client, TestCase
-from django.contrib.auth.models import User
 from django.urls import reverse
+from .models import User
 # Create your tests here.
 
 class Tests(TestCase):

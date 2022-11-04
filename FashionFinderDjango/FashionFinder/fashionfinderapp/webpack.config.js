@@ -1,11 +1,18 @@
-const path = require('path');
+const path = require("path");
+const webpack = require("webpack");
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
-  mode:'development',
   entry: {
-      index: path.resolve('jsx/index.jsx'),
-      register: path.resolve('jsx/register.jsx'),
+    index: path.resolve('/static/jsx/index.jsx'),
+    home: path.resolve('static/jsx/home.jsx'),
+    register: path.resolve('/static/jsx/register.jsx'),
+    navbar: path.resolve('/static/jsx/navbar.jsx'),
+  },
+  mode: 'development',
+  output: {
+    path: path.resolve(__dirname, "./static/fashionfinder"),
+    filename: "[name].js",
   },
   module: {
     rules: [
@@ -25,8 +32,16 @@ module.exports = {
             "@babel/plugin-proposal-optional-chaining"
           ]
         }}]
-      }
-    ]
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+  optimization: {
+    minimize: true,
   },
   plugins: [new ESLintPlugin({})],
   resolve: {

@@ -4,7 +4,7 @@ import imp
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth import authenticate, login, logout
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string, get_template
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 import fashionfinderapp.utils.utils
@@ -24,7 +24,7 @@ from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommen
 
 def index(request):
     # Default Page
-    return HttpResponse("Hello, world. Welcome to fashion finder")
+    return HttpResponse(render_to_string('html/index.html'))
 
 
 def home(request):

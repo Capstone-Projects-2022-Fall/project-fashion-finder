@@ -126,7 +126,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = 'fashionfinderapp/static/'
 
 STATICFILES_DIRS = [
-    'fashionfinderapp/webpack/'
+    'fashionfinderapp/static/'
 ]
 
 # Default primary key field type

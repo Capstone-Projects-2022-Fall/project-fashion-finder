@@ -44,6 +44,7 @@ def predict(request):
         mongo_data = predict_class(f)
         mongo_data['user_django_id'] = request.user.id
         mongo_data['descriptor'] = request.POST['title']
+        mongo_data['user_django_name'] = request.user.username
         im = Image.open(f)
         img_bytes = io.BytesIO()
         im.save(img_bytes, format='JPEG')

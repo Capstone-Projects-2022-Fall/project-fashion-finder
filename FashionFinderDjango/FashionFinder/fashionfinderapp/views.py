@@ -137,7 +137,7 @@ def save_mongo_img_data_to_static_dir(rec):
 @login_required
 def wardrobe(request):
     if(request.method == 'GET'):
-        recs = get_wardrobe(request.user.id, n=10)
+        recs = get_wardrobe(request.user.id, request.user.username, n=10)
         for rec in recs:
             # print(rec)
             break
@@ -157,10 +157,8 @@ def wardrobe(request):
 
 def rec(request):
     if(request.method == 'GET'):
-        recs, user_piece_rec = get_recommendations(request.user.id, n=10)
-        for rec in recs:
-            print(rec)
-            break
+        recs, user_piece_rec = get_recommendations(request.user.id,request.user.username, n=10)
+
         # print(type(recs))
         user_piece_rec = save_mongo_img_data_to_static_dir(user_piece_rec)
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
@@ -173,4 +171,4 @@ def rec(request):
             template.render(context, request),
             content_type='text/html')
     else:
-        return HttpResponse(400)   
+        return HttpResponse(400)

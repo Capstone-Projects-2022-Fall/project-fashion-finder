@@ -50,6 +50,6 @@ def predict_class(filepath):
 	response_data['hex_codes'] = hexes
 	response_data['rgb_0'] = hex_to_rgb(hexes[0])
 	response_data['rgb_1'] = hex_to_rgb(hexes[1])
-	response_data['rgb_2'] = hex_to_rgb(hexes[2])
+	response_data['rgb_2'] = hex_to_rgb(hexes[2]) 
 
 	return response_data

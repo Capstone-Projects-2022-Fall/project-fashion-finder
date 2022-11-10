@@ -24,16 +24,11 @@ from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommen
 
 def index(request):
     # Default Page
-    return HttpResponse(render_to_string('html/index.html'))
-
-
-def home(request):
-    # Home Page
-    template = loader.get_template('index.html')
-    context = {'foo': 'bar'}
-    return HttpResponse(
-        template.render(context, request),
-        content_type='text/html')
+    return HttpResponse(render_to_string('html/index.html', {
+        "json": json.dumps({
+            "user_id": json.dumps(request.user.id)
+        })
+    }))
 
 
 def pieces(request):

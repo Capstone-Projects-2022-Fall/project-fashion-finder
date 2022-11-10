@@ -4,9 +4,17 @@
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-
+!.yarn/cache/*
+.__pycache__/*
 # Swap the comments on the following lines if you don't wish to use zero-installs
 # Documentation here: https://yarnpkg.com/features/zero-installs
-!.yarn/cache
+
 #.pnp.*
 node_modules
+__pycache__/admin.cpython-38.pyc
+__pycache__/admin.cpython-38.pyc
+__pycache__/forms.cpython-38.pyc
+__pycache__/models.cpython-38.pyc
+.gitignore
+__pycache__/views.cpython-38.pyc
+migrations/__pycache__/0002_user_created_at_user_updated_at.cpython-38.pyc

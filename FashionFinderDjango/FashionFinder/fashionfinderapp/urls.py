@@ -10,7 +10,6 @@ from django.conf.urls.static import static
 # Look at views.py index() function and get that path
 urlpatterns = [
     path('', views.index, name='index'),
-    path('home/', views.home, name='home'),
     path('pieces/', views.pieces, name='pieces'),
     path('accounts/login/', auth_views.LoginView.as_view()),
     path('accounts/', include('django.contrib.auth.urls')),

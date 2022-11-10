@@ -78,7 +78,7 @@ const Login = () => {
         <LoginStyle />
         <ErrMsg />
         <div className="loginContainer">
-            <h1 className="loginTitle">Sign Up</h1>
+            <h1 className="loginTitle">Log In</h1>
 
             <form method="POST">
                 <div className="loginInputContainter"><input className="loginInput" placeholder="Username" name="username" id="username-input" /></div>

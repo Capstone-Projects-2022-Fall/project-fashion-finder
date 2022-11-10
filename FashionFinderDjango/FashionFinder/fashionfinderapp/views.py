@@ -17,7 +17,7 @@ from django.conf import settings as django_settings
 import os
 
 from fashionfinderapp.models import *
-from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm
+from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm, LoginForm
 from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations
 # Create your views here.
 

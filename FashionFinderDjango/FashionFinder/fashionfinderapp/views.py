@@ -17,7 +17,7 @@ from django.conf import settings as django_settings
 import os
 
 from fashionfinderapp.models import *
-from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm
+from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm, LoginForm
 from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations
 # Create your views here.
 
@@ -59,19 +59,38 @@ def user(request, user_id=None):
 #@login_required
 def login(request):
     #page for logging in user
+    response_data = {}
 
-    username = request.Post['username']
-    password = request.Post['password']
-    user = authenticate(request, username = username, password = password)
-    if user is not None:
-        login(request, user)
-            #return home page
-    else:   
-        return #login page, invalid login message
+    context_dict = { 'form': None }
+    form = LoginForm()
+
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    elif request.method == "GET":
+        context_dict['form'] = form
+    elif request.method == "POST":
+        form = RegistrationForm(request.POST)
+        context_dict['form'] = form
+        if form.is_valid():
+            form.save()
+
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            response_data['error'] = json.dumps(form.errors)
+
+    return HttpResponse(render_to_string('registration/login.html', {
+        "json": json.dumps(response_data)
+    }))
 
 def logout_view(request):
     logout(request)
     #return login page, logout message
+    return HttpResponse(render_to_string('registration/register.html', {
+    }))
 
 def register(request):
     response_data = {}
@@ -80,7 +99,7 @@ def register(request):
     form = RegistrationForm()
 
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/home/')
+        return HttpResponseRedirect('/')
     elif request.method == "GET":
         context_dict['form'] = form
     elif request.method == "POST":
@@ -132,7 +151,7 @@ def save_mongo_img_data_to_static_dir(rec):
 @login_required
 def wardrobe(request):
     if(request.method == 'GET'):
-        recs = get_wardrobe(request.user.id, n=10)
+        recs = get_wardrobe(request.user.id, request.user.username, n=10)
         for rec in recs:
             # print(rec)
             break
@@ -152,10 +171,8 @@ def wardrobe(request):
 
 def rec(request):
     if(request.method == 'GET'):
-        recs, user_piece_rec = get_recommendations(request.user.id, n=10)
-        for rec in recs:
-            print(rec)
-            break
+        recs, user_piece_rec = get_recommendations(request.user.id,request.user.username, n=10)
+
         # print(type(recs))
         user_piece_rec = save_mongo_img_data_to_static_dir(user_piece_rec)
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
@@ -168,4 +185,4 @@ def rec(request):
             template.render(context, request),
             content_type='text/html')
     else:
-        return HttpResponse(400)   
+        return HttpResponse(400)

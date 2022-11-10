@@ -7,6 +7,7 @@ module.exports = {
     index: path.resolve('/static/jsx/index.jsx'),
     home: path.resolve('static/jsx/home.jsx'),
     register: path.resolve('/static/jsx/register.jsx'),
+    login: path.resolve('/static/jsx/login.jsx'),
     navbar: path.resolve('/static/jsx/navbar.jsx'),
   },
   mode: 'development',

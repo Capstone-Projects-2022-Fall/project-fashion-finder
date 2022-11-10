@@ -1,10 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+    <div id='root'></div>
+    <script type='application/javascript'>
+        window._json = '{{ json|safe|escapejs }}';
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'fashionfinder/login.js' %}"></script>
 {% endblock %}

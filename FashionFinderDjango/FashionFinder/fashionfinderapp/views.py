@@ -23,7 +23,7 @@ def index(request):
 
 def home(request):
     # Home Page
-    template = loader.get_template('index.html')
+    template = loader.get_template('html/index.html')
     context = {'foo': 'bar'}
     return HttpResponse(
         template.render(context, request),
@@ -58,19 +58,38 @@ def user(request, user_id=None):
 #@login_required
 def login(request):
     #page for logging in user
+    response_data = {}
 
-    username = request.Post['username']
-    password = request.Post['password']
-    user = authenticate(request, username = username, password = password)
-    if user is not None:
-        login(request, user)
-            #return home page
-    else:   
-        return #login page, invalid login message
+    context_dict = { 'form': None }
+    form = LoginForm()
+
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    elif request.method == "GET":
+        context_dict['form'] = form
+    elif request.method == "POST":
+        form = RegistrationForm(request.POST)
+        context_dict['form'] = form
+        if form.is_valid():
+            form.save()
+
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            response_data['error'] = json.dumps(form.errors)
+
+    return HttpResponse(render_to_string('registration/login.html', {
+        "json": json.dumps(response_data)
+    }))
 
 def logout_view(request):
     logout(request)
     #return login page, logout message
+    return HttpResponse(render_to_string('registration/register.html', {
+    }))
 
 def register(request):
     response_data = {}
@@ -79,7 +98,7 @@ def register(request):
     form = RegistrationForm()
 
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/home/')
+        return HttpResponseRedirect('/')
     elif request.method == "GET":
         context_dict['form'] = form
     elif request.method == "POST":

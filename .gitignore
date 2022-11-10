@@ -8,3 +8,6 @@
 .env.test.local
 .env.production.local
 node_modules
+FashionFinderDjango/FashionFinder/FashionFinder/__pycache__/*
+FashionFinderDjango/FashionFinder/ImgPredMicroservice/__pycache__/*
+FashionFinderDjango/FashionFinder/ImgPredMicroservice/__pycache__/class_predict.cpython-38.pyc

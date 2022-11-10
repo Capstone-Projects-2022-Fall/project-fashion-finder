@@ -19,6 +19,7 @@ from django.urls import include, path
 urlpatterns = [
     # Do not edit
     path('', include('fashionfinderapp.urls')),
+    path('model/api/v1/', include('ImgPredMicroservice.urls')),
 
     path('admin/', admin.site.urls),
 ]

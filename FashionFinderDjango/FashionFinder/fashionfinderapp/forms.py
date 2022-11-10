@@ -28,6 +28,13 @@ class RegistrationForm(forms.ModelForm):
         return user
 
 
+
+class UploadImgForPredMicroserviceForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
+
+
+
 class LoginForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     confirm = forms.CharField(label='Confirm', widget=forms.PasswordInput)

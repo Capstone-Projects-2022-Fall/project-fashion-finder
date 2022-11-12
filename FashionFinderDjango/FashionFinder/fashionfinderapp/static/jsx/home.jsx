@@ -171,7 +171,7 @@ const selectionStyle = {
         height: '50px'
     },
 
-    activeRight: {
+    active: {
         height: '100%',
         background: 'linear-gradient(to right, #eee 50%, #aaa 50%)',
 
@@ -180,7 +180,7 @@ const selectionStyle = {
         }
     },
 
-    activeLeft: {
+    inactive: {
         height: '100%',
         background: 'linear-gradient(to right, #aaa 50%, #eee 50%)',
 
@@ -194,14 +194,22 @@ const selectionStyle = {
         justifyConent: 'space-between',
     },
 
-    Items: {
+    Wardrobe: {
         marginTop: '15px',
         width: '50%',
         height: '100%',
         textAlign: 'center'
     },
 
-    users: {
+    Similar_Items: {
+        marginTop: '15px',
+        width: '50%',
+        width: '50%',
+        height: '100%',
+        textAlign: 'center'
+    },
+
+    Complementary_Items: {
         marginTop: '15px',
         width: '50%',
         width: '50%',
@@ -234,7 +242,7 @@ class Search extends React.Component {
                 <SearchStyle />
                 <div className="searchContainer"> 
                     <form onSubmit={this.handleSubmit}>
-                        <input placeholder="Search for items or users..." className="searchInput" onChange={this.handleChange} />
+                        <input placeholder="Search for items..." className="searchInput" onChange={this.handleChange} />
                     </form>
                 </div>
             </>
@@ -258,48 +266,17 @@ const ItemPost = (props) => {
     </div>;
 };
 
-const UserPost = (props) => {
-    const redirect = () => {
-        window.location.replace('/users/' + props.id)
-    }
-
-    return <div className="container"> 
-        <div className="imgContainer" onClick={redirect}><img src={props.img} className="postImg"/></div>
-        <div className="contentContainer" onClick={redirect}>
-            <h1 className="postTitle">{props.username}</h1>
-        </div>
-    </div>;
-};
-
-const Items = (props) => {
+const WardobeItems = (props) => {
     return (
         <>
             <PostStyle />
-            <ItemSearch />
+            <Search />
             { 
                 props.items.map((item) => {
-                    const imgUrl = item.hasOwnProperty("picture") ? item.picture.url : "static/default_item.png"
+                    const imgUrl = item.hasOwnProperty("picture") ? item.picture.url : "" //item
 
                     return (
-                       <ItemPost key={Item.id} id={Item.id} title={"orange shirt"} user={Item.owner.username} desc={"an orange t-shirt"} img={imgUrl} />
-                    )
-                }) 
-            }
-        </> 
-    );
-}
-
-const Users = (props) => {
-    return (
-        <>
-            <PostStyle />
-            <ItemSearch />
-            { 
-                props.users.map((user) => {
-                    const imgUrl = user.hasOwnProperty("picture") ? user.picture.url : "static/chefhat4.png"
-
-                    return (
-                       <UserPost key={user.id} id={user.id} username={user.username} img={imgUrl} />
+                       <ItemPost key={recipe.id} id={item.id} title={""} user={item.owner.username} desc={""} img={imgUrl} />
                     )
                 }) 
             }
@@ -308,19 +285,34 @@ const Users = (props) => {
 }
 
 const Home = () => {
-    const [toggle, setToggle] = useState(true);
-    const toggleSelection = () => setToggle(toggle => !toggle);
+    const [elementToDisplay, setElementToDisplay] = useState("");
+    const [active, setActiveTab] = useState(true);
+    const activeSelction = () => setActiveTab(active => !active)
+
+    const showWardrobe = () => {
+      //Show Wardrobe Items
+      {active && <Item items={items} /> }
+    }
+    const showSimilarItems = () => {
+      //Show Recommendations: similar Items
+    }
+    const showComplementaryItems = () => {
+      //Show Recommendations: complementary Items
+    }
     return (
         <Navbar loggedIn={(user_id !== null)} user_id={user_id}>
             <div style={selectionStyle.container}>
-                <button style={selectionStyle.btn} onClick={toggleSelection}>
-                    <div style={(toggle ? selectionStyle.activeLeft : selectionStyle.activeRight)}>
-                        <div style={selectionStyle.nameWrapper}> 
-                            <p style={selectionStyle.Items}>Items</p>
-                            <p style={selectionStyle.users}>Users</p>
-                        </div>
-                    </div>
-                </button>
+
+
+                <button style={selectionStyle.btn} onClick={showWardrobe}>Wardrobe</button>
+                <button style={selectionStyle.btn} onClick={showSimilarItems}>Similar Items</button>
+                <button style={selectionStyle.btn} onClick={showComplementaryItems}>Complementary Items</button>
+        
+                <div className="Home">
+                {elementToDisplay}
+                </div>
+
+
             </div>
 
         </Navbar>

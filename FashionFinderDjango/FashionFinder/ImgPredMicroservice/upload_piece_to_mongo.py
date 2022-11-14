@@ -75,8 +75,6 @@ def get_wardrobe(user_id, user_name, n = 10):
 			{'user_django_name' : user_name},
 
 		]})
-	print("Num user pieces")
-	print("")
 	return user_pieces
 
 def calculate_min_distance_from_skin_tone(rgb, skin_tones=BANNED_TONES):

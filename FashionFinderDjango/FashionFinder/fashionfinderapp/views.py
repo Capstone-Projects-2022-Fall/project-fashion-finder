@@ -97,8 +97,7 @@ def login(request):
 
 def logout_view(request):
     django_logout(request)
-    return HttpResponse(render_to_string('registration/register.html', {
-    }))
+    return HttpResponseRedirect('/')
 
 def register(request):
     response_data = {}
@@ -145,12 +144,12 @@ def colors(request):
 def save_mongo_img_data_to_static_dir(rec):
     img = Image.open(io.BytesIO(rec['img_data']))
     f_name = "%s.jpg" % rec['_id']
-    f_path = os.path.join(django_settings.STATIC_ROOT, f_name)
+    f_path = os.path.join(django_settings.USER_UPLOAD_ROOT, f_name)
     img.save(f_path)
     print("saved")
     del rec['img_data']
-    rec['id'] = rec['_id']
-    del rec['_id']
+    rec['filepath'] = '/static/' + str(rec['_id']) + '.jpg'
+    rec['_id'] = str(rec['_id'])
     return rec
 
 # def get_record_id(rec):
@@ -173,7 +172,23 @@ def wardrobe(request):
         return HttpResponse(
             template.render(context, request),
             content_type='text/html')
+    else:
+        return HttpResponse(400)
 
+@login_required
+def wardrobe_json(request):
+    if(request.method == 'GET'):
+        print(request.user.id)
+        print(request.user.username)
+        recs = get_wardrobe(request.user.id, request.user.username, n=10)
+        recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+        context = {'recs':recs}
+        template = loader.get_template('recs.html')
+        for rec in recs:
+            print(rec)
+        print(type(recs))
+        print(recs)
+        return JsonResponse({'recs':recs})
     else:
         return HttpResponse(400)
 @login_required

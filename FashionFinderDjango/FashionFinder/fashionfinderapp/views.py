@@ -3,7 +3,7 @@
 import imp
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate as django_authenticate, login as django_login, logout as django_logout 
 from django.template.loader import render_to_string, get_template
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
@@ -15,13 +15,15 @@ from PIL import Image
 import io
 from django.conf import settings as django_settings
 import os
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 from fashionfinderapp.models import *
-from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm, LoginForm
+from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm, SignInForm
 from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations
 # Create your views here.
 
-
+@ensure_csrf_cookie
 def index(request):
     # Default Page
     return HttpResponse(render_to_string('html/index.html', {
@@ -59,66 +61,72 @@ def user(request, user_id=None):
 #@login_required
 def login(request):
     #page for logging in user
+
+    print("Login view called")
+    print(request.user)
+    print(request.body)
     response_data = {}
 
     context_dict = { 'form': None }
-    form = LoginForm()
+    # form = LoginForm()
 
     if request.user.is_authenticated:
+        print("User is already logged in")
         return HttpResponseRedirect('/')
     elif request.method == "GET":
-        context_dict['form'] = form
-    elif request.method == "POST":
-        form = RegistrationForm(request.POST)
-        context_dict['form'] = form
-        if form.is_valid():
-            form.save()
-
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return HttpResponseRedirect('/')
-        else:
-            response_data['error'] = json.dumps(form.errors)
-
-    return HttpResponse(render_to_string('registration/login.html', {
+        # context_dict['form'] = form
+        return HttpResponse(render_to_string('registration/login.html', {
         "json": json.dumps(response_data)
     }))
+    elif request.method == "POST":
+        form = SignInForm(request.POST)
+        context_dict['form'] = form
+        user = None
+        if form.is_valid():
+            print("User found")
+            user = django_authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            django_login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            print("User not found")
+            print(form.errors)
+            return HttpResponseRedirect('/accounts/login')
+    else:
+        print("Method not supported")
+        return HttpResponseRedirect('/accounts/login')
 
 def logout_view(request):
-    logout(request)
-    #return login page, logout message
+    django_logout(request)
     return HttpResponse(render_to_string('registration/register.html', {
     }))
 
 def register(request):
     response_data = {}
-
     context_dict = { 'form': None }
-    form = RegistrationForm()
-
     if request.user.is_authenticated:
+        print("User is already authenticated")
         return HttpResponseRedirect('/')
     elif request.method == "GET":
-        context_dict['form'] = form
+        return HttpResponse(render_to_string('registration/register.html', {
+        "json": json.dumps(response_data)
+    }))
     elif request.method == "POST":
         form = RegistrationForm(request.POST)
         context_dict['form'] = form
         if form.is_valid():
             form.save()
-
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            login(request, user)
+            user = django_authenticate(username=username, password=password)
+            django_login(request, user)
             return HttpResponseRedirect('/')
         else:
+            print("Form is not valid")
+            print(form.errors)
             response_data['error'] = json.dumps(form.errors)
+            return HttpResponse(response_data)
 
-    return HttpResponse(render_to_string('registration/register.html', {
-        "json": json.dumps(response_data)
-    }))
+
 @login_required
 def predict(request):
 
@@ -168,7 +176,7 @@ def wardrobe(request):
 
     else:
         return HttpResponse(400)
-
+@login_required
 def rec(request):
     if(request.method == 'GET'):
         recs, user_piece_rec = get_recommendations(request.user.id,request.user.username, n=10)

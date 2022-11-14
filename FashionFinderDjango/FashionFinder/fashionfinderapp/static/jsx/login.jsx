@@ -22,6 +22,12 @@ function getCookie(name) {
     return cookieValue;
 }
 
+const csrftoken = getCookie('csrftoken')
+const CSRFToken = () => {
+    return (
+        <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken} />
+    );
+};
 const ErrMsg = () => {
     const errKeys = Object.keys(responseErr)
 
@@ -78,9 +84,10 @@ const Login = () => {
         <LoginStyle />
         <ErrMsg />
         <div className="loginContainer">
-            <h1 className="loginTitle">Sign Up</h1>
+            <h1 className="loginTitle">Log in</h1>
 
             <form method="POST">
+                <CSRFToken />
                 <div className="loginInputContainter"><input className="loginInput" placeholder="Username" name="username" id="username-input" /></div>
                 <div className="loginInputContainter"><input className="loginInput" placeholder="Password" name="password" id="password-input" type="password" /></div>
                 <input className="loginBtn" type="submit" />

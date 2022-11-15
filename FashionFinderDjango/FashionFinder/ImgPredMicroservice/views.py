@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import tensorflow as tf 
 import tensorflow.keras as keras
 from keras.applications.vgg16 import VGG16, preprocess_input
@@ -55,12 +55,11 @@ def predict(request):
             inserted_id = insert_user_fashion_piece(mongo_doc)
 
             if(inserted_id is None):
-                return HttpResponse(json.dumps({'Status':'Failed to upload'}),
-                        content_type='application/json')
+                print("Failed user image upload")
+                return HttpResponseRedirect('/')
+               
             else:
-              return HttpResponse(json.dumps({'Status':'Success',"upload_id":str(inserted_id)}),
-                            content_type='application/json')  
-
+                return HttpResponseRedirect('/')
     else:
         return HttpResponse('Ensure that you are sending a POST request with Body of type "form-data" where the form data is key-value pairs of names of files and files')
 

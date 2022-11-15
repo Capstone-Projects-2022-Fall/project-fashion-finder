@@ -36,7 +36,7 @@ def predict_class(filepath):
 	hexes = get_dominant_colors(color_img)
 	img = img/255
 	y_pred = model.predict(img)
-	y_pred_bin = binarizeOutput(y_pred, threshold=0.2)
+	y_pred_bin = binarizeOutput(y_pred, threshold=0.4)
 	y_pred_classes = [[CLASS_LIST[i]
 							for i, x in enumerate(row) if x == 1]
 							for row in y_pred_bin]

@@ -84,7 +84,7 @@ const Login = () => {
         <LoginStyle />
         <ErrMsg />
         <div className="loginContainer">
-            <h1 className="loginTitle">Log in</h1>
+            <h1 className="loginTitle">Login</h1>
 
             <form method="POST">
                 <CSRFToken />

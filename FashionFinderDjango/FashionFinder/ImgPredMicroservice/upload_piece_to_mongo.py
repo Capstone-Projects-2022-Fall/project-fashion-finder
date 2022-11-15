@@ -2,6 +2,7 @@ import io
 import numpy as np
 from PIL import Image 
 from fashionfinderapp.utils import get_db_default_handle
+from bson.objectid import ObjectId
 BANNED_TONES = [
 [60, 46, 40],
 [75, 57, 50],
@@ -92,19 +93,31 @@ def calculate_min_distance_from_skin_tone(rgb, skin_tones=BANNED_TONES):
 		min_diff = 1
 	return min_diff
 
-def get_recommendations(user_id, user_name, n = 10):
+def get_recommendations(piece_id = None, user_id = None, user_name = None, n = 10):
 	db_handle, client = get_db_default_handle()
 	db = client.fashion_finder_db
 	user_collection = db.UserFashionPiece
 	recs_collection = db.LabeledFashionPiece
-	user_pieces = user_collection.find(
-		{"$and": [
-			{'user_django_id' : user_id},
-			{'user_django_name' : user_name},
-
-		]}
-	)
-	user_piece_rec = user_pieces[0]
+	user_piece_rec = None
+	if(piece_id is not None):
+		user_piece_rec = user_collection.find_one({"_id":ObjectId(piece_id)})
+		print('Piece found')
+		print(user_piece_rec['_id'])
+	else:
+		print("no piece id")
+		user_pieces = user_collection.find(
+			{"$and": [
+				{'user_django_id' : user_id},
+				{'user_django_name' : user_name},
+			]}
+		)
+		user_piece_rec = user_pieces[0]
+		# user_pieces = user
+	# if(piece_id is not None){
+	# 	# user_pieces = user_collection.find({"_id":piece_id})
+	# 	print("huh")
+	# } else {
+	# }
 	
 	rgb_0_weight =  1 / calculate_min_distance_from_skin_tone(user_piece_rec['rgb_0'])
 	rgb_1_weight = 1 / calculate_min_distance_from_skin_tone(user_piece_rec['rgb_1'])
@@ -116,6 +129,13 @@ def get_recommendations(user_id, user_name, n = 10):
 			"$project": {
 				"_id": 1,
 				"img_data": 1,
+				"labels": 1,
+				"hex_codes": 1,
+				"rgb_0": 1,
+				"rgb_1": 1,
+				"rgb_2": 1,
+				"descriptor": 1,
+
 				# RGB_SOURCE_TARGET_RGB_INDEX_diff
 				# 0 0
 				"rgb_0_0_0_diff": {"$subtract": [{"$arrayElemAt": ["$rgb_0", 0]}, user_piece_rec["rgb_0"][0] ] },
@@ -169,6 +189,12 @@ def get_recommendations(user_id, user_name, n = 10):
 			"$project": {
 				"_id": 1,
 				"img_data": 1,
+				"labels": 1,
+				"hex_codes": 1,
+				"rgb_0": 1,
+				"rgb_1": 1,
+				"rgb_2": 1,
+				"descriptor": 1,
 
 				# Calculate the euclidean distance for each pairing of hex codes 
 				"rgb_0_0_euclid": {"$sum": [
@@ -230,7 +256,14 @@ def get_recommendations(user_id, user_name, n = 10):
 		},
 		{
 			"$project": {
+				"_id": 1,
 				"img_data": 1,
+				"labels": 1,
+				"hex_codes": 1,
+				"rgb_0": 1,
+				"rgb_1": 1,
+				"rgb_2": 1,
+				"descriptor": 1,
 				"rgb_0_0_euclid": 1,
 				"rgb_0_1_euclid": 1,
 				"rgb_0_2_euclid": 1,
@@ -244,11 +277,18 @@ def get_recommendations(user_id, user_name, n = 10):
 				"min_0_distance": {"$min":["$rgb_0_0_euclid", "$rgb_1_0_euclid", "$rgb_2_0_euclid"]},
 				"min_1_distance": {"$min":["$rgb_0_1_euclid", "$rgb_1_1_euclid", "$rgb_2_1_euclid"]},
 				"min_2_distance": {"$min":["$rgb_0_2_euclid", "$rgb_1_2_euclid", "$rgb_2_2_euclid"]},
-				# "min_distance": {"$min":["$rgb_0_0_euclid","$rgb_0_1_euclid","$rgb_0_2_euclid","$rgb_1_0_euclid","$rgb_1_1_euclid","$rgb_1_2_euclid","$rgb_2_0_euclid","$rgb_2_1_euclid","$rgb_2_2_euclid"]}
 			}
 		},
 		{
 			"$project": {
+				"_id": 1,
+				"img_data": 1,
+				"labels": 1,
+				"hex_codes": 1,
+				"rgb_0": 1,
+				"rgb_1": 1,
+				"rgb_2": 1,
+				"descriptor": 1,
 				"img_data": 1,
 				"min_0_distance": 1,
 				"min_1_distance": 1,
@@ -274,82 +314,3 @@ def get_recommendations(user_id, user_name, n = 10):
 	])
 
 	return agg_results, user_piece_rec
-
-# def get_recommendations(user_id, user_name, n = 10):
-# 	db_handle, client = get_db_default_handle()
-# 	db = client.fashion_finder_db
-
-# 	user_collection = db.UserFashionPiece
-# 	recs_collection = db.LabeledFashionPiece
-
-# 	user_pieces = user_collection.find(
-# 		{"$and": [
-# 			{'user_django_id' : user_id},
-# 			{'user_django_name' : user_name},
-
-# 		]}
-# 		)
-# 	user_piece_rec = user_pieces[0]
-# 	labels = user_piece_rec['labels']
-# 	rgb_0 = user_piece_rec['rgb_1']
-# 	print(rgb_0)
-# 	print(labels)
-# 	# recs_collection.find({'$and': [
-# 	# 	'labels':
-# 	# ]})
-
-# 	# We want a recommendation algorithm that finds clothing with similar labels and 
-# 	# satisfies the following condition
-# 	#
-# 	#
-# 	#
-# 	#
-# 	# rec_pieces = recs_collection.find({"labels":
-# 	# 									{"$elemMatch": 
-# 	# 										{"$in": labels}
-# 	# 									}
-# 	# 								})
-									
-# 	# rec_pieces = recs_collection.find({"rgb_0.0":36})
-	
-# 	# rec_pieces = recs_collection.find({"rgb_0.0":{
-# 	# 									"$and":[
-# 	# 										{"$lt":41},
-# 	# 										{"$gt":31},
-# 	# 									]
-# 	# 								}})
-# 	# Final all pieces between 31 and 41 red value for rgb_0
-# 	# rec_pieces = list(recs_collection.find({"$and": [
-# 	# 									{"rgb_0.0": {"$lt":33}},
-# 	# 									{"rgb_0.0": {"$gt":31}},
-
-# 	# 								]}))
-
-# 	delta = 20 # Allow for 20 units of variation in each piece
-
-# 	rgb_0_0_match_query = {"$and": [
-# 		{"rgb_0.0": {"$lt":rgb_0[0] + delta}},
-# 		{"rgb_0.0": {"$gt":rgb_0[0] - delta}},
-# 		{"rgb_0.1": {"$lt":rgb_0[1] + delta}},
-# 		{"rgb_0.1": {"$gt":rgb_0[1] - delta}},
-# 		{"rgb_0.2": {"$gt":rgb_0[2] + delta}},
-# 		{"rgb_0.2": {"$lt":rgb_0[2] - delta}},
-# 	]}
-# 	# if "Dress" in labels:
-# 	# 	rec_labels = "Blazer"
-# 	rec_pieces = recs_collection.find({"$and": [
-# 									{"$and": [
-# 										{"rgb_0.0": {"$lt":rgb_0[0] + delta}},
-# 										{"rgb_0.0": {"$gt":rgb_0[0] - delta}},
-# 										{"rgb_0.1": {"$lt":rgb_0[1] + delta}},
-# 										{"rgb_0.1": {"$gt":rgb_0[1] - delta}},
-# 										{"rgb_0.2": {"$lt":rgb_0[2] + delta}},
-# 										{"rgb_0.2": {"$gt":rgb_0[2] - delta}},
-# 									]},
-# 									{"labels":
-# 										{"$elemMatch": 
-# 											{"$in": labels}
-# 										}
-# 									}
-# 								]}).limit(n)
-# 	return rec_pieces, user_piece_rec

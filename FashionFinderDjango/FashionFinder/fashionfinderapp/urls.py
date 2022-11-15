@@ -22,5 +22,6 @@ urlpatterns = [
     path('wardrobe/', views.wardrobe),
     path('async/wardrobe/', views.wardrobe_json),
     path('recommendations/', views.rec),
+    path('recommendations/<piece_id>', views.rec_async),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

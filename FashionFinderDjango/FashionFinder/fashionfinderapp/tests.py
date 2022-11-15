@@ -1,6 +1,9 @@
 from django.test import Client, TestCase
 from django.urls import reverse
+
 from .models import User
+
+
 # Create your tests here.
 
 class Tests(TestCase):
@@ -12,27 +15,25 @@ class Tests(TestCase):
         u.save()
         self.User = u
 
-
     def test_FF(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
-    
     def test_get_user(self):
         us = User.objects.filter(id=self.User.id).first()
         self.assertNotEqual(us, None)
         self.assertEqual(us.id, self.User.id)
 
-
     def test_home_page(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 302)
+        self.client.login(username=self.User.username, password='password')
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
 
-    
     def test_index(self):
         response = self.client.get(reverse('index'))
         self.assertEqual(response.status_code, 200)
-
 
     def test_login_page(self):
         response = self.client.get(reverse('login'))

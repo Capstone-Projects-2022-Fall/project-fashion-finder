@@ -5,13 +5,12 @@ def get_db_default_handle():
     db_handle, client = get_db_handle(db_name='fashion_finder_db',
                                       host='mongodb+srv://cluster0.glnjpi9.mongodb.net/test',
                                       username='django_db_user',
-                                      password='Ko4mNy6A5JEaST', # TODO: make secret
+                                      password='Ko4mNy6A5JEaST',
                                       port=27017)
     return db_handle, client
 
 
 def get_db_handle(db_name, host, port, username, password):
-
     client = MongoClient(host=host,
                          port=int(port),
                          username=username,

@@ -1,15 +1,29 @@
-/*!*****************************!*\
-  !*** ./static/jsx/home.jsx ***!
+/*!*****************************!*
+                               !*** ./src/app/hero.ts ***!
+  \*****************************/
+/*! exports provided: Hero */
+/*! exports used: Hero */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Hero */
+class Hero {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+                               !*** ./static/jsx/home.jsx ***!
   \*****************************/
 
-/*!*******************************!*\
-  !*** ./static/jsx/navbar.jsx ***!
+/*!*******************************!*
+                                                                                                                                 !*** ./static/jsx/navbar.jsx ***!
   \*******************************/
 
-/*!*************************************!*\
-  !*** ./node_modules/react/index.js ***!
+/*!*************************************!*
+                                                                                                                                                                                                                                              !*** ./node_modules/react/index.js ***!
   \*************************************/
 
-/*!*****************************************************!*\
-  !*** ./node_modules/react/cjs/react.development.js ***!
+/*!*****************************************************!*
+                                                                                                                                                                                                                                                                                                                                                                                !*** ./node_modules/react/cjs/react.development.js ***!
   \*****************************************************/

@@ -1,7 +1,6 @@
 import React from "react";
 import {useState} from 'react';
 import Navbar from './navbar.jsx';
-import Wardrobe from './wardrobe.jsx'
 
 let context = JSON.parse(window._json);
 let user_id = JSON.parse(context["user_id"]);
@@ -292,7 +291,7 @@ const Home = () => {
 
     const showWardrobe = () => {
       //Show Wardrobe Items
-    //   {active && <Item items={items} /> }
+      {active && <Item items={items} /> }
     }
     const showSimilarItems = () => {
       //Show Recommendations: similar Items
@@ -312,15 +311,11 @@ const Home = () => {
                 <div className="Home">
                 {elementToDisplay}
                 </div>
-             
 
 
             </div>
-            <Wardrobe>
-            
-            </Wardrobe>
-        </Navbar>
 
+        </Navbar>
     );
 }
 

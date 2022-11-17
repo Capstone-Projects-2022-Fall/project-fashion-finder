@@ -85,7 +85,7 @@ const Navbar = ({children, loggedIn: _loggedIn}) => {
                 <ul className={isActive ? "nav-menu active" : "nav-menu"}>
                     {loggedIn && <>
                     <li className="nav-item">
-                        <a href="/upload/new" className="nav-link">New Upload</a>
+                        <a href="/upload" className="nav-link">New Upload</a>
                     </li>
                     <li className="nav-item">
                         <a href="/profile" className="nav-link">Profile</a>

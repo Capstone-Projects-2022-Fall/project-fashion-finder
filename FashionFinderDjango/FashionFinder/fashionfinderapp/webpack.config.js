@@ -8,6 +8,12 @@ module.exports = {
     home: path.resolve('static/jsx/home.jsx'),
     register: path.resolve('/static/jsx/register.jsx'),
     login: path.resolve('/static/jsx/login.jsx'),
+    profile: path.resolve('/static/jsx/profile.jsx'),
+    search: path.resolve('/static/jsx/search.jsx'),
+    item: path.resolve('/static/jsx/item.jsx'),
+    cart: path.resolve('/static/jsx/cart.jsx'),
+    vote: path.resolve('/static/jsx/vote.jsx'),
+
     navbar: path.resolve('/static/jsx/navbar.jsx'),
   },
   mode: 'development',

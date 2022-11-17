@@ -99,7 +99,7 @@ const Navbar = ({children, loggedIn: _loggedIn}) => {
                         <a href="/accounts/login/" className="nav-link">Upload Photo</a>
                     </li>
                     <li className="nav-item">
-                        <a href="/accounts/login/" className="nav-link">Log In</a>
+                        <a href="/accounts/login/" className="nav-link">Log in</a>
                     </li>
                     <li className="nav-item">
                         <a href="/accounts/register/" className="nav-link">Sign Up</a>

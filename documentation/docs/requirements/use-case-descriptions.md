@@ -4,43 +4,45 @@ sidebar_position: 5
 
 # Use-case descriptions
 
-## Use case 1:  
+## Use case 1: Item tracker  
 
-A user opens the app on their device  
-The product provides a place to upload photos  
-The product gives a recommendation of items they may be interested in  
-The product gives a graph of prices of the items (StockX)  
-The user can save the above info to a My Items section  
-Returns to 1st step  
+A user navigates to Fashion Finder and is fully authenticated
+They want to keep track of clothes in their closet.
+They uploads photos of each fashion piece they own.
+The user is then able to view their uploaded pieces
   
-## Use case 2:  
+## Use case 2: Item labeler
 
-A user opens the app on their device  
-The product provides a place to upload photos  
-The product gives a recommendation of items they may be interested in  
-The product gives a graph of prices of the items (StockX)  
-The user can save the above info to a My Items section  
-Returns to 1st step  
+A user navigates to Fashion Finder and is fully authenticated
+They have pictures of their closet and want to find out how many of each type of clothing they own
+They upload photos of each fashion piece they own.
+The user is then able to see their wardrobe with labels generated from a machine learning model
+These labels will tell the user the type of clothing for each image uploaded 
+
   
-## Use case 3:  
+## Use case 3: Color labeler
 
-A user goes on the web app of Fashion Finder  
-They want to know the recent price listings of a product they want  
-Fashion Finder will show the trade volatility to see how high or low the current price is of a product  
-The product was below 9% of the market price  
-So they decided to purchase the product  
+A user navigates to Fashion Finder and is fully authenticated
+They have pictures of their closet and want to find out how often different colors appear in their wardrobe.
+They upload photos of each fashion piece they own.
+The user is then able to see their wardrobe with labels of the primary colors appearing in each photo.
+These labels will tell the user the primary "palette" of the fashion piece.
+
+## Use case 4: Finding similar items
+A user navigates to Fashion Finder and is fully authenticated.
+They have a fashion piece that they like and want to find more items like it.
+They upload the fashion piece image to the Fashion Finder Database.
+They navigate to a "See more like this" section, where they can see other fashion pieces in the same categories and fashion pieces with similar color palettes. 
+
+## Use case 5: Finding complementary items
+A user navigates to Fashion Finder and is fully authenticated.
+They are able to view their wardrobe of uploaded items.
+They want to be able to find other items that would go well with their item
+For any of the items in their wardrobe, they can click on a "See items that would good well with this" section
+They are then prompted with the most similar items, ranked by label similarity and color palette similarity. 
   
-## Use case 4:  
-
-A user has a collection of clothes they own  
-They want to make outfits out of them  
-As well as find products that will complete their outfit  
-They upload photos of their own clothing  
-Fashion Finder will generate similar products for them to buy  
-  
-## Use case 5:  
-
-A user is on a budget and wants to shop only items on sale  
-The user adds products they like to their My Items list  
-Fashon Finder will notify the user if one of their My Items list goes on sale  
-The user can then compare the sale price of the product with the market price using Fashion Finder  
+## Use case 6: Liking / Dislking items  
+A user navigates to Fashion Finder and is fully authenticated.
+They are able to navigate to a "Like/Dislike" page, where they will be prompted with random fashion pieces
+They will be able to like or dislike different pieces
+The user will be able to view a list of their liked pieces

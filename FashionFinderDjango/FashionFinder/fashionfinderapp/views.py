@@ -25,7 +25,12 @@ from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommen
 
 @ensure_csrf_cookie
 def index(request):
-    # Default Page
+    """
+    Default Page, serves as home page for application.
+
+    :return: Index.html page.
+    :rtype: An Http response.
+    """
     return HttpResponse(render_to_string('html/index.html', {
         "json": json.dumps({
             "user_id": json.dumps(request.user.id)
@@ -34,7 +39,9 @@ def index(request):
 
 
 def pieces(request):
-    # Page for showing the current pieces in the database
+    """
+    A page for showing the current pieces in the database
+    """
 
     _, client = fashionfinderapp.utils.get_db_default_handle()
     fashion_collection = client['fashion_finder_db']['FashionPiece']
@@ -49,6 +56,9 @@ def pieces(request):
         content_type='text/html')
 
 def user(request, user_id=None):
+    """
+    A view of the user's id and name information.
+    """
     u = User.objects.filter(id=user_id).first()
     return HttpResponse(render_to_string('user.html',{
         "json": json.dumps({
@@ -60,7 +70,17 @@ def user(request, user_id=None):
 
 #@login_required
 def login(request):
-    #page for logging in user
+    """
+    A Page for logging in user.
+
+    If user is logged in, redirects to home page.
+    
+    Otherwise, loads the Login html page and Login Form.
+
+    Checks if form is complete and user is found. If user is found and password is correct, redirects to home page.
+
+    If login form is incomplete or user is not found, reloads login form and page.
+    """
 
     print("Login view called")
     print(request.user)
@@ -96,11 +116,24 @@ def login(request):
         return HttpResponseRedirect('/accounts/login')
 
 def logout_view(request):
+    """
+    Completes user logout and redirects to Sign In form.
+    """
     django_logout(request)
-    return HttpResponse(render_to_string('registration/register.html', {
+    return HttpResponse(render_to_string('registration/login.html', {
     }))
 
 def register(request):
+    """
+    New user sign-up. 
+
+    If user is logged in, redirects to home page.
+    
+    Otherwise, loads the Registration html page and Register Form.
+
+    Checks if form is complete
+    """
+
     response_data = {}
     context_dict = { 'form': None }
     if request.user.is_authenticated:

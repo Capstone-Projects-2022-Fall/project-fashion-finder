@@ -12,7 +12,7 @@
 *.pyc
 FashionFinderJupyterVirtualEnv/
 FashionFinderVirtualEnv/
-FFVenv/
+FFVenv/*
 #Image files
 FashionFinderDjango/FashionFinder/fashionfinderapp/static/*.jpg
 
@@ -29,4 +29,5 @@ FashionFinderDjango/FashionFinder/fashionfinderapp/package-lock.js
 .env.development.local
 .env.test.local
 .env.production.local
+node_modules
 node_modules

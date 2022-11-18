@@ -12,8 +12,16 @@
 *.pyc
 FashionFinderJupyterVirtualEnv/
 FashionFinderVirtualEnv/
+FFVenv/*
+#Image files
+FashionFinderDjango/FashionFinder/fashionfinderapp/static/*.jpg
+
+
 # Generated files
 .docusaurus
+FashionFinderDjango/FashionFinder/fashionfinderapp/static/fashionfinder/*.js
+FashionFinderDjango/FashionFinder/fashionfinderapp/yarn.lock
+FashionFinderDjango/FashionFinder/fashionfinderapp/package-lock.js
 
 # Misc
 .DS_Store
@@ -21,4 +29,5 @@ FashionFinderVirtualEnv/
 .env.development.local
 .env.test.local
 .env.production.local
+node_modules
 node_modules

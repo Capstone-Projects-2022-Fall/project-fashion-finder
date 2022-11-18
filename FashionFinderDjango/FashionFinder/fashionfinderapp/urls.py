@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 from django.contrib.auth import views as auth_views
 from django.urls import include
@@ -21,6 +20,8 @@ urlpatterns = [
     path('users/<int:user_id>', views.user),
     path('upload/', views.predict),
     path('wardrobe/', views.wardrobe),
+    path('async/wardrobe/', views.wardrobe_json),
     path('recommendations/', views.rec),
+    path('recommendations/<piece_id>', views.rec_async),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

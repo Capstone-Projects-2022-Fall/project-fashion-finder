@@ -16,6 +16,7 @@ import io
 from django.conf import settings as django_settings
 import os
 from django.views.decorators.csrf import ensure_csrf_cookie
+from bson.objectid import ObjectId
 
 
 from fashionfinderapp.models import *
@@ -201,14 +202,16 @@ def save_mongo_img_data_to_static_dir(rec):
 
     :return: image_data
     """
+    print("saving image....")
     img = Image.open(io.BytesIO(rec['img_data']))
     f_name = "%s.jpg" % rec['_id']
-    f_path = os.path.join(django_settings.STATIC_ROOT, f_name)
+    f_path = os.path.join(django_settings.USER_UPLOAD_ROOT, f_name)
     img.save(f_path)
     print("saved")
     del rec['img_data']
-    rec['id'] = rec['_id']
-    del rec['_id']
+    rec['filepath'] = '/static/' + str(rec['_id']) + '.jpg'
+    rec['_id'] = str(rec['_id'])
+    rec['id'] = str(rec['_id'])
     return rec
 
 # def get_record_id(rec):
@@ -224,10 +227,6 @@ def wardrobe(request):
     """
     if(request.method == 'GET'):
         recs = get_wardrobe(request.user.id, request.user.username, n=10)
-        for rec in recs:
-            # print(rec)
-            break
-        print(type(recs))
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
         # ids = [get_record_id(rec) for rec in recs]
         # print(thinned_ids)
@@ -237,7 +236,19 @@ def wardrobe(request):
         return HttpResponse(
             template.render(context, request),
             content_type='text/html')
+    else:
+        return HttpResponse(400)
 
+@login_required
+def wardrobe_json(request):
+    if(request.method == 'GET'):
+        print(request.user.id)
+        print(request.user.username)
+        recs = get_wardrobe(request.user.id, request.user.username, n=10)
+        recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+        context = {'recs':recs}
+        template = loader.get_template('recs.html')
+        return JsonResponse({'recs':recs})
     else:
         return HttpResponse(400)
 @login_required
@@ -254,6 +265,35 @@ def rec(request):
         # print(type(recs))
         user_piece_rec = save_mongo_img_data_to_static_dir(user_piece_rec)
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+        # ids = [get_record_id(rec) for rec in recs]
+        # print(thinned_ids)
+        
+        context = {'recs':recs, 'user_piece_rec':user_piece_rec}
+        template = loader.get_template('recs.html')
+        return HttpResponse(
+            template.render(context, request),
+            content_type='text/html')
+    else:
+        return HttpResponse(400)
+
+def rec_async(request, piece_id):
+    if(request.method == 'GET'):
+        recs, user_piece_rec = get_recommendations(piece_id, n=10)
+        # print(list(recs))
+        # if(len(recs) == 0):
+            # print("No recs found")
+        # while(recs.hasNext()):
+            # print(recs.next())
+        # for rec in recs:
+            # print("hello")
+            # print(rec.keys())
+        # print(type(recs))
+        user_piece_rec = save_mongo_img_data_to_static_dir(user_piece_rec)
+        recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+        print(recs)
+        for rec in recs:
+            rec['id'] = rec['_id']
+            print(rec['_id'])
         # ids = [get_record_id(rec) for rec in recs]
         # print(thinned_ids)
         

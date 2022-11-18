@@ -21,8 +21,13 @@ class BaseModel(models.Model):
 class User(AbstractUser, BaseModel):
     """
     Django User model.
+
+    :AbstractUser: An abstract base class implementing a fully featured User model with admin-compliant permissions.
     """
     def to_json(self):
+        """
+        
+        """
         d = dict(
             id=self.id,
             username=self.username,

@@ -18,13 +18,16 @@ project_root = Path(os.getcwd()).parent.parent.parent.parent.absolute()
 sys.path.insert(0, project_root)
 print(project_root)
 
-sys.path.append(os.path.abspath('FashionFinderDjango/FashionFinder/'))
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FashionFinder.settings')
+sys.path.insert(0, os.path.join(os.path.abspath('.'), 'FashionFinderDjango/FashionFinder/'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'FashionFinder.settings'
+#import django
+#django.setup()     
 
 path_ffapp = os.path.join(project_root, "FashionFinderDjango/FashionFinder/fashionfinderapp")
 sys.path.insert(0, path_ffapp)
 print(path_ffapp)
+
+
 
 # -- Project information -----------------------------------------------------
 

@@ -4,4 +4,4 @@ Classes
 Forms.py
 ------------
 
-.. autoclass:: forms.RegistrationForm()
+.. autoclass:: fashionfinderapp.forms.RegistrationForm()

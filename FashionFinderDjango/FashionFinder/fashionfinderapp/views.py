@@ -58,6 +58,9 @@ def pieces(request):
 def user(request, user_id=None):
     """
     A view of the user's id and name information.
+
+    :return: user.html page.
+    :rtype: An Http response.
     """
     u = User.objects.filter(id=user_id).first()
     return HttpResponse(render_to_string('user.html',{
@@ -80,6 +83,9 @@ def login(request):
     Checks if form is complete and user is found. If user is found and password is correct, redirects to home page.
 
     If login form is incomplete or user is not found, reloads login form and page.
+
+    :return: login.html page.
+    :rtype: An Http response.
     """
 
     print("Login view called")
@@ -118,6 +124,9 @@ def login(request):
 def logout_view(request):
     """
     Completes user logout and redirects to Sign In form.
+
+    :return: login.html page.
+    :rtype: An Http response.
     """
     django_logout(request)
     return HttpResponse(render_to_string('registration/login.html', {
@@ -131,7 +140,13 @@ def register(request):
     
     Otherwise, loads the Registration html page and Register Form.
 
-    Checks if form is complete
+    Checks if registration form is complete. Adds user to user database and redirects to homepage.
+
+    If registration form is incomplete or user is not found, reloads registration form and page.
+
+    :return: index.html page.
+    :rtype: An Http response.
+
     """
 
     response_data = {}
@@ -162,6 +177,9 @@ def register(request):
 
 @login_required
 def predict(request):
+    """
+    
+    """
 
     template = loader.get_template('predict.html')
     context = {}
@@ -170,12 +188,19 @@ def predict(request):
 
 @login_required
 def colors(request):
+    """
+    """
     form = UploadImgForPredMicroserviceForm()
     return render(request, 'color.html', {'form': form} )
 
 
 # Save the mongo record to 
 def save_mongo_img_data_to_static_dir(rec):
+    """
+    Saves the Mongo Image data to the static directory.
+
+    :return: image_data
+    """
     img = Image.open(io.BytesIO(rec['img_data']))
     f_name = "%s.jpg" % rec['_id']
     f_path = os.path.join(django_settings.STATIC_ROOT, f_name)
@@ -191,6 +216,12 @@ def save_mongo_img_data_to_static_dir(rec):
 
 @login_required
 def wardrobe(request):
+    """
+    Displays the image of each fashion item uploaded by a user.
+
+    :return: recs.html page.
+    :rtype: An Http response.
+    """
     if(request.method == 'GET'):
         recs = get_wardrobe(request.user.id, request.user.username, n=10)
         for rec in recs:
@@ -211,6 +242,12 @@ def wardrobe(request):
         return HttpResponse(400)
 @login_required
 def rec(request):
+    """
+    A page that displays images of fashion pieces
+
+    :return: recs.html page.
+    :rtype: An Http response.
+    """
     if(request.method == 'GET'):
         recs, user_piece_rec = get_recommendations(request.user.id,request.user.username, n=10)
 

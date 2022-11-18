@@ -46,3 +46,5 @@ A user navigates to Fashion Finder and is fully authenticated.
 They are able to navigate to a "Like/Dislike" page, where they will be prompted with random fashion pieces
 They will be able to like or dislike different pieces
 The user will be able to view a list of their liked pieces
+
+![FashionFinderLogin](/img/Fashion Finder Login (1).png)

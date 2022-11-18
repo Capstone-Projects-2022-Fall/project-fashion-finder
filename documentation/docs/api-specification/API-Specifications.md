@@ -74,3 +74,55 @@ Class Purpose: The Account class corresponds to a particular user. Account setti
 Type: Int
 
 Purpose: Primary Key
+
+## Classes - ImgPredictionMicroservices
+
+## ClassPredictor
+
+#### Methods:
+    predict_class(filepath):
+    Purpose: Given an image at a given filepath, open it, process it, and run it through the deployed machine learning model. Return the result
+    Returns: Dict obct with keys ['labels','hex_codes','rgb_0', 'rgb_1','rgb_2']
+
+    hex_to_rgb(h):
+    Purpose, given a hex-code, return the rgb values accordingly
+    Returns: (R, G, B)
+
+    binarizeOutput(y_pred, threshold=0.5):
+    Given a tensor with probability values, round each element to 0 or 1 depending on the threshold value
+    Returns: A binary tensor
+
+## Mongo Driver
+    create_user_fashion_piece_dock(data, img_bytes):
+    Purpose: Creates a pyMongo document a python dictionary and raw image data
+    Returns pyMongo document for creation
+
+    insert_user_fashion_piece(mongo_doc):
+    Params: mongo_doc (a pyMongo document type)
+    Returns: If successful, returns ID of inserted piece. Otherwise, returns None
+
+    get_wardrobe(user_id, user_name, n = 10, offset=0):
+    Params: user_id, user_name (supplied from auth module).
+    n: number of wardrobe items
+    offset: page number (if applicable)
+
+### Recommendation Mongo Driver
+    def calculate_min_distance_from_banned_tones(rgb, tones):
+    
+    Purpose: We maintain a list of banned tones that we don't want the recommendation to recommend too heavily on hex values that is close to one of these tones. We block most grey values as well popular skin tones as to avoid matching on backgrounds and other factors in the photos.
+    Arguments: rgb: integer array of dimension 2x3.
+    Argument: tones: The list of banned tones
+
+    def get_recommendations(piece_id, user_id, user_name, n = 10):
+    Purpose: Find other pieces in the `LabeledFashionPiece` collection like the users selected piece
+    Param: piece_id: The MongoDb id of the piece.
+    Param: user_id: The users DJango id
+    Param: user_name: The users name
+    Param: n: The number of recommendations to generate
+
+
+## Views Driver
+The views.py files contains most of the response parsing and bundling logic. Not necessary to construct a Class doc for it.
+
+## URLs driver
+The urls.py driver file for both the FashionFinder proJect and the fashionfinderapp app is responsible for mapping the local paths to functions in views.py.

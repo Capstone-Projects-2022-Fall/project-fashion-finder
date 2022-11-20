@@ -1,4 +1,3 @@
-### Image Classification Class Diagram
 ```mermaid
 classDiagram
     class FashionPiece {

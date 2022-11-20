@@ -19,8 +19,7 @@ sidebar_position: 1
 The relation of the components can be found in the diagram below.
 
 ### Component Diagram
-![FFSystemdiagram (1)](https://user-images.githubusercontent.com/47365682/202932977-d13d680b-26b0-4c72-90d6-dab03c7ed05e.png)
-
+![Component Diagram](https://user-images.githubusercontent.com/47365682/202932977-d13d680b-26b0-4c72-90d6-dab03c7ed05e.png)
 
 ## Storage Components
 

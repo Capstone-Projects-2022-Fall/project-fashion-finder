@@ -2,6 +2,7 @@ import React from "react";
 import {useState} from 'react';
 import Navbar from './navbar.jsx';
 import Wardrobe from './wardrobe.jsx'
+import RecommendedPieces from './recommendedPieces.jsx'
 
 let context = JSON.parse(window._json);
 let user_id = JSON.parse(context["user_id"]);
@@ -267,6 +268,18 @@ const ItemPost = (props) => {
     </div>;
 };
 
+
+const HomeStyle = () => {
+    return (
+        <style> {`
+            .wardrobe-and-recommendations-container {
+                display: flex;
+            }
+        `}</style>
+    );
+}
+
+
 const WardobeItems = (props) => {
     return (
         <>
@@ -300,25 +313,17 @@ const Home = () => {
     const showComplementaryItems = () => {
       //Show Recommendations: complementary Items
     }
+
     return (
         <Navbar loggedIn={(user_id !== null)} user_id={user_id}>
-            <div style={selectionStyle.container}>
 
-
-                <button style={selectionStyle.btn} onClick={showWardrobe}>Wardrobe</button>
-                <button style={selectionStyle.btn} onClick={showSimilarItems}>Similar Items</button>
-                <button style={selectionStyle.btn} onClick={showComplementaryItems}>Complementary Items</button>
-        
-                <div className="Home">
-                {elementToDisplay}
-                </div>
-             
-
+            <HomeStyle/>
+            <div className="wardrobe-and-recommendations-container">
+                <Wardrobe>
+                </Wardrobe>
 
             </div>
-            <Wardrobe>
             
-            </Wardrobe>
         </Navbar>
 
     );

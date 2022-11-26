@@ -1,5 +1,6 @@
 import React from "react";
 import {useState} from 'react';
+import RecommendedPieces from "./recommendedPieces";
 
 function getCookie(name) {
     let cookieValue = null;
@@ -31,6 +32,9 @@ const CSRFToken = () => {
 const WardrobeStyle = () => {
 	return <style>
 		{`
+			.wardobe-and-recommendations {
+				display: flex;
+			}
 			.wardrobe-item{
 				display: flex;
 			}
@@ -38,12 +42,14 @@ const WardrobeStyle = () => {
 				margin-left: 10%;
 				margin-right: 10%;
 				min-width: 400px;
+				max-width: 1000px;
 			}
 			.wardrobe-item-image{
 				border: 1px solid black;
 				margin-top: 5px;
 				margin-bottom: 5px;
 			}
+			
 			.wardrobe-item-description-container{
 				margin-left: 100px;
 				margin-top: 10px;
@@ -87,14 +93,42 @@ const WardrobeStyle = () => {
 }
 
 
+
+const WardrobeItemSelectButtonStyle = () => {
+	return <style>
+		{`
+		.wardrobe-item-select-button {
+			min-height: 20px;
+			min-width: 100px;
+		}
+		
+		`
+
+		}
+	</style> 
+}
+// class WardrobeItemSelectButton extends React.Component {
+
+// 	 render(){
+// 		return (<div>
+
+// 		</div>
+// 		);
+// 	 }
+// }
+
+
+
+
 class Wardrobe extends React.Component {
 	constructor(props) {
         super(props);
-        this.state = {loading: true, items: []};
+        this.state = {loading: true, items: [], selected_oid: null};
 
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = tgrfwfdhis.handleSubmit.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
+		this.handleSelectedOIDChange = this.handleSelectedOIDChange.bind(this) 
     }
 
 	componentDidMount() {
@@ -103,12 +137,20 @@ class Wardrobe extends React.Component {
 		.then(json => this.setState({loading: false, items: json}))
 	}
 
+	handleSelectedOIDChange(event) {
+		console.log(event)
+		console.log(event.target.value)
+		this.setState({selected_oid: event.target.value})
+		console.log("Change!")
+	}
+
 	renderWardrobeItem(item, index){
 		if(item == null || item == undefined){
 			return <p> Item can not be properly rendered</p>
 		}
 
-		return <div className='wardrobe-item' key={index}>
+		return <div 
+		className='wardrobe-item' key={index}>
 
 			<img className='wardrobe-item-image' src={item.filepath}
 				width="300"
@@ -149,7 +191,17 @@ class Wardrobe extends React.Component {
 						<br/>
 						<br/>
 						<a href={'/recommendations/' + item._id}> Click here to see images like this one</a>
+						<br/>
+						<br/>
+						<a href={'/recommendations/complementary/' + item._id}> Click here to see images that would go well with this one</a>
 					</div>
+				</div>
+				<div className='wardrobe-item-select-container'>
+					{
+					<button  className="wardrobe-item-select-button" onClick={(e) => this.handleSelectedOIDChange(e)} value={item._id}>
+						Select
+					</button>
+					}
 				</div>
 			</div>
 
@@ -177,9 +229,16 @@ class Wardrobe extends React.Component {
 		</ul>
 	}
 
-    // handleChange(event) {
-        // this.setState({value: event.target.value});
-    // }
+	// renderRecommendedPieces(items){
+	// 	if(items.recs.length == 0) {
+	// 		return <div> 
+	// 		<h2> No Piece selected</h2>
+	// 				<p> Click "New Upload" above</p>
+	// 		</div> 
+	// 	}
+
+	// }
+
 
     // handleSubmit(event) {
         // event.preventDefault();
@@ -187,14 +246,24 @@ class Wardrobe extends React.Component {
     // }
 
     render() {
-		const {loading, items} = this.state
+		// TODO: Add Buttons for displaying recommendations
+		const {loading, items, selected_oid} = this.state
         return (
-			<>
+			<div className ='wardobe-and-recommendations'>
 				<WardrobeStyle/>
 				<div className="wardrobe-items-container">
-					{loading ? "Loading...": this.renderList(this.state.items)}
+					{loading ? "Loading": this.renderList(items)}
 				</div>
-			</>
+
+				<WardrobeItemSelectButtonStyle/>
+				{selected_oid == null ? "No piece selected" :
+				<RecommendedPieces source_oid={selected_oid} >
+				</RecommendedPieces>
+				
+				
+				}
+					
+			</div>
             // <>
                 // {/* <SearchStyle /> */}
                 // <div className="searchContainer"> 

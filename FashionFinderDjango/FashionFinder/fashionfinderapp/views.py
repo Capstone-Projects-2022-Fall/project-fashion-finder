@@ -194,20 +194,28 @@ def colors(request):
     form = UploadImgForPredMicroserviceForm()
     return render(request, 'color.html', {'form': form} )
 
-
+from pathlib import Path
 # Save the mongo record to 
 def save_mongo_img_data_to_static_dir(rec):
+    # TODO: don't pull image data unless necessary
     """
     Saves the Mongo Image data to the static directory.
 
     :return: image_data
     """
-    print("saving image....")
-    img = Image.open(io.BytesIO(rec['img_data']))
     f_name = "%s.jpg" % rec['_id']
+
     f_path = os.path.join(django_settings.USER_UPLOAD_ROOT, f_name)
-    img.save(f_path)
-    print("saved")
+    image_file = Path(f_path)
+
+    if(image_file.exists()):
+        # No op
+        print("File already exists")
+    else:
+        print("saving image....")
+        img = Image.open(io.BytesIO(rec['img_data']))
+        img.save(f_path)
+        print("saved")
     del rec['img_data']
     rec['filepath'] = '/static/' + str(rec['_id']) + '.jpg'
     rec['_id'] = str(rec['_id'])
@@ -226,7 +234,7 @@ def wardrobe(request):
     :rtype: An Http response.
     """
     if(request.method == 'GET'):
-        recs = get_wardrobe(request.user.id, request.user.username, n=10)
+        recs = get_wardrobe(request.user.id, request.user.username)
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
         # ids = [get_record_id(rec) for rec in recs]
         # print(thinned_ids)
@@ -244,7 +252,7 @@ def wardrobe_json(request):
     if(request.method == 'GET'):
         print(request.user.id)
         print(request.user.username)
-        recs = get_wardrobe(request.user.id, request.user.username, n=10)
+        recs = get_wardrobe(request.user.id, request.user.username)
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
         context = {'recs':recs}
         template = loader.get_template('recs.html')
@@ -321,8 +329,16 @@ def async_recommendations_json(request, piece_id):
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
         # recs = get_wardrobe(request.user.id, request.user.username, n=10)
         # recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
-        context = {'recs':recs}
-        template = loader.get_template('recs.html')
+        return JsonResponse({'recs':recs})
+    else:
+        return HttpResponse(400)
+
+@login_required
+def async_recommendations_comp_json(request, piece_id):
+    if(request.method == 'GET'):
+        recs, user_piece_rec = get_complementary_recommendation(piece_id, n=10)
+        user_piece_rec = save_mongo_img_data_to_static_dir(user_piece_rec)
+        recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
         return JsonResponse({'recs':recs})
     else:
         return HttpResponse(400)

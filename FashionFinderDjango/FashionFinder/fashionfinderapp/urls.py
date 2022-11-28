@@ -24,6 +24,7 @@ urlpatterns = [
     path('recommendations/', views.rec),
     path('recommendations/<piece_id>', views.rec_async),
     path('recommendations/complementary/<piece_id>', views.rec_comp),
-    path('async/recommendations/<piece_id>', views.async_recommendations_json)
+    path('async/recommendations/<piece_id>', views.async_recommendations_json),
+    path('async/recommendations/complementary/<piece_id>', views.async_recommendations_comp_json)
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

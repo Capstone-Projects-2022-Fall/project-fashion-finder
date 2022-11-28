@@ -174,7 +174,7 @@ def get_dominant_color(user_piece_rec):
 
 
 
-def get_wardrobe(user_id, user_name, n = 10):
+def get_wardrobe(user_id, user_name):
 	db_handle, client = get_db_default_handle()
 	db = client.fashion_finder_db
 
@@ -260,6 +260,7 @@ def get_complementary_recommendation(piece_id = None, user_id = None, user_name 
 				'_id': 1,
 				'img_data': 1,
 				'labels': 1,
+				'descriptor': 1,
 				'source_0_red_target_0_diff':  {'$subtract': [{"$arrayElemAt": ["$rgb_0", 0]}, rec_rgb[0][0]]},
 				'source_1_red_target_0_diff':  {'$subtract': [{"$arrayElemAt": ["$rgb_0", 0]}, rec_rgb[1][0]]},
 				'source_2_red_target_0_diff':  {'$subtract': [{"$arrayElemAt": ["$rgb_0", 0]}, rec_rgb[2][0]]},
@@ -394,6 +395,7 @@ def get_complementary_recommendation(piece_id = None, user_id = None, user_name 
 				'_id': 1,
 				'img_data': 1,
 				'labels': 1,
+				'descriptor': 1,
 				'source_0_target_0_dist': {'$sqrt':{'$sum': [
 					{'$multiply': ['$source_0_red_target_0_diff','$source_0_red_target_0_diff']},
 					{'$multiply': ['$source_0_green_target_0_diff','$source_0_green_target_0_diff']},
@@ -612,6 +614,7 @@ def get_complementary_recommendation(piece_id = None, user_id = None, user_name 
 				'_id': 1,
 				'img_data': 1,
 				'labels': 1,
+				'descriptor': 1,
 				'source_0_min_dist': {'$min':['$source_0_target_0_dist','$source_0_target_1_dist','$source_0_target_2_dist']},
 				'source_1_min_dist': {'$min':['$source_1_target_0_dist','$source_1_target_1_dist','$source_1_target_2_dist']},
 				'source_2_min_dist': {'$min':['$source_2_target_0_dist','$source_2_target_1_dist','$source_2_target_2_dist']},
@@ -633,6 +636,7 @@ def get_complementary_recommendation(piece_id = None, user_id = None, user_name 
 				'_id': 1,
 				'img_data': 1,
 				'labels': 1,
+				'descriptor': 1,
 				'min_dist': {"$min": ['$source_0_min_dist','$source_1_min_dist','$source_2_min_dist','$source_3_min_dist']}
 				# 'min_dist': {"$min": ['$source_0_min_dist','$source_1_min_dist','$source_2_min_dist','$source_3_min_dist','$source_4_min_dist','$source_5_min_dist','$source_6_min_dist','$source_7_min_dist','$source_8_min_dist','$source_9_min_dist','$source_10_min_dist','$source_11_min_dist','$source_12_min_dist']}
 			},

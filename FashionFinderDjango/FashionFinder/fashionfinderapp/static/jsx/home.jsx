@@ -2,7 +2,6 @@ import React from "react";
 import {useState} from 'react';
 import Navbar from './navbar.jsx';
 import Wardrobe from './wardrobe.jsx'
-import RecommendedPieces from './recommendedPieces.jsx'
 
 let context = JSON.parse(window._json);
 let user_id = JSON.parse(context["user_id"]);
@@ -220,38 +219,6 @@ const selectionStyle = {
     }
 }
 
-class Search extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ''};
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        window.location.replace('/?search=' + this.state.value)
-    }
-
-    render() {
-        return (
-            <>
-                <SearchStyle />
-                <div className="searchContainer"> 
-                    <form onSubmit={this.handleSubmit}>
-                        <input placeholder="Search for items..." className="searchInput" onChange={this.handleChange} />
-                    </form>
-                </div>
-            </>
-        );
-    };
-};
-
 const ItemPost = (props) => {
     const redirect = () => {
         window.location.replace('/item/' + props.id)
@@ -279,24 +246,6 @@ const HomeStyle = () => {
     );
 }
 
-
-const WardobeItems = (props) => {
-    return (
-        <>
-            <PostStyle />
-            <Search />
-            { 
-                props.items.map((item) => {
-                    const imgUrl = item.hasOwnProperty("picture") ? item.picture.url : "" //item
-
-                    return (
-                       <ItemPost key={recipe.id} id={item.id} title={""} user={item.owner.username} desc={""} img={imgUrl} />
-                    )
-                }) 
-            }
-        </> 
-    );
-}
 
 const Home = () => {
     const [elementToDisplay, setElementToDisplay] = useState("");

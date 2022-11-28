@@ -1,6 +1,5 @@
 import React from "react";
 import {useState} from 'react';
-import RecommendedPieces from "./recommendedPieces";
 
 function getCookie(name) {
     let cookieValue = null;
@@ -32,8 +31,39 @@ const CSRFToken = () => {
 const WardrobeStyle = () => {
 	return <style>
 		{`
+			.recomendation-comp-items-container {
+				margin-top: 20px;
+			}
+			.recomendation-items-container {
+				margin-top: 20px;
+			}
+			.recommendation-items-container-header {
+				min-height: 40px;
+				text-align: center;
+			}
+			.recommendation-comp-items-container-header {
+				min-height: 40px;
+				text-align: center;
+			}
+			.recommendation-item {
+				margin-top: 5px;
+				margin-bottom: 5px;
+				border: 1px solid black;
+			}
+			.recommendation-item-list-container{
+				margin-right: 10px;
+				margin-top: 10px;
+			}
+
+			.wardrobe-and-recommendations-container {
+				display: flex;
+				justify-content: center;
+				border: 1px solid black;
+				background: gray;
+			}
 			.wardobe-and-recommendations {
 				display: flex;
+
 			}
 			.wardrobe-item{
 				display: flex;
@@ -41,7 +71,6 @@ const WardrobeStyle = () => {
 			.wardrobe-items-container{
 				margin-left: 10%;
 				margin-right: 10%;
-				min-width: 400px;
 				max-width: 1000px;
 			}
 			.wardrobe-item-image{
@@ -107,15 +136,7 @@ const WardrobeItemSelectButtonStyle = () => {
 		}
 	</style> 
 }
-// class WardrobeItemSelectButton extends React.Component {
 
-// 	 render(){
-// 		return (<div>
-
-// 		</div>
-// 		);
-// 	 }
-// }
 
 
 
@@ -123,12 +144,12 @@ const WardrobeItemSelectButtonStyle = () => {
 class Wardrobe extends React.Component {
 	constructor(props) {
         super(props);
-        this.state = {loading: true, items: [], selected_oid: null};
+        this.state = {loading: true, rec_loading: true, rec_comp_loading: true, items: [], rec_items: [], rec_comp_items:[], selected_oid: null};
 
         // this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = tgrfwfdhis.handleSubmit.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
-		this.handleSelectedOIDChange = this.handleSelectedOIDChange.bind(this) 
+		this.handleSelectedOIDChange = this.handleSelectedOIDChange.bind(this);
     }
 
 	componentDidMount() {
@@ -138,10 +159,55 @@ class Wardrobe extends React.Component {
 	}
 
 	handleSelectedOIDChange(event) {
-		console.log(event)
-		console.log(event.target.value)
-		this.setState({selected_oid: event.target.value})
+		console.log("HANDLE EVENT")
+		// console.log(event)
+		// console.log(event.target.value)
 		console.log("Change!")
+		console.log("Rec pieces source OID")
+		this.setState({rec_loading: true, rec_items: []})
+		
+		fetch("http://localhost:8000/async/recommendations/" + event.target.value)
+		.then(response => response.json())
+		.then(json => this.setState({selected_oid: event.target.value, rec_loading: false, rec_items: json.recs}))
+
+		this.setState({rec_comp_loading: true, rec_comp_items: []})
+		fetch("http://localhost:8000/async/recommendations/complementary/" + event.target.value)
+		.then(response => response.json())
+		.then(json => this.setState({rec_comp_loading: false, rec_comp_items: json.recs}))
+		
+		
+		console.log(this.state.selected_oid)
+	}
+
+	renderRecommendationItem(item, index) {
+		console.log(item)
+		if(item == null || item == undefined){
+			return <p> Item can not be properly rendered</p>
+		} else {
+			return <div 
+			className='recommendation-item' key={index}>
+
+			
+					<img className='recommendation-item-image' 
+						src={item.filepath}
+						width="200"
+						height="200"
+						/>
+					<div className='recommended-item-image-description-container'>
+						{item.descriptor}
+					</div>
+
+			</div>
+
+		}
+	}
+	renderRecommendationList(items) {
+		// console.log(items)
+		return <div className='recommendation-item-list-container'>
+			{items.map((index, item) => this.renderRecommendationItem((item, index)))
+
+			}
+		</div>
 	}
 
 	renderWardrobeItem(item, index){
@@ -187,18 +253,11 @@ class Wardrobe extends React.Component {
 				<div className='wardrobe-item-links'>
 					<div className='wardrobe-link-see-full-image'>
 						<a href={'/static/' + item._id + '.jpg'}> Click here to see the full image</a>
-						<br/>
-						<br/>
-						<br/>
-						<a href={'/recommendations/' + item._id}> Click here to see images like this one</a>
-						<br/>
-						<br/>
-						<a href={'/recommendations/complementary/' + item._id}> Click here to see images that would go well with this one</a>
 					</div>
 				</div>
 				<div className='wardrobe-item-select-container'>
 					{
-					<button  className="wardrobe-item-select-button" onClick={(e) => this.handleSelectedOIDChange(e)} value={item._id}>
+					<button  className="wardrobe-item-select-button" onClick={this.handleSelectedOIDChange} value={item._id}>
 						Select
 					</button>
 					}
@@ -212,8 +271,8 @@ class Wardrobe extends React.Component {
 
 
 	renderList(items) {
-		console.log(Object.keys(items))
-		console.log(typeof(items))
+		// console.log(Object.keys(items))
+		// console.log(typeof(items))
 		if(items.recs.length == 0){
 			return <div> 
 				<h2> You don't have any uploaded Images</h2>
@@ -246,23 +305,31 @@ class Wardrobe extends React.Component {
     // }
 
     render() {
-		// TODO: Add Buttons for displaying recommendations
-		const {loading, items, selected_oid} = this.state
-        return (
-			<div className ='wardobe-and-recommendations'>
-				<WardrobeStyle/>
-				<div className="wardrobe-items-container">
-					{loading ? "Loading": this.renderList(items)}
-				</div>
+		console.log("render() re-called")
+		const {loading, rec_loading, rec_comp_loading, items, rec_items, rec_comp_items, selected_oid} = this.state
 
-				<WardrobeItemSelectButtonStyle/>
-				{selected_oid == null ? "No piece selected" :
-				<RecommendedPieces source_oid={selected_oid} >
-				</RecommendedPieces>
-				
-				
-				}
-					
+        return (
+			<div className='main-page-container'>
+				<WardrobeStyle/>
+				<div className ='wardobe-and-recommendations'>
+					<div className="wardrobe-items-container">
+						{loading ? "Loading": this.renderList(items)}
+					</div>
+
+					<WardrobeItemSelectButtonStyle/>
+					<div className="recomendation-items-container">
+						<div className='recommendation-items-container-header'>
+							Pieces like this
+						</div>
+						{selected_oid == null ? "No Piece Selected \t" : this.renderRecommendationList(rec_items)}
+					</div>
+					<div className="recomendation-comp-items-container">
+						<div className='recommendation-comp-items-container-header'>
+							Pieces that would go well with this
+						</div>
+						{selected_oid == null ? "" : this.renderRecommendationList(rec_comp_items)}
+					</div>
+				</div>
 			</div>
             // <>
                 // {/* <SearchStyle /> */}

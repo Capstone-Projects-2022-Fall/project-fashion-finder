@@ -54,8 +54,6 @@ def get_dominant_colors(img, normed_kernel = None):
 
     draw = get_draw(img_colors=img_colors, normed_kernel=normed_kernel, sample_size=200)
     # return draw
-    print(np.shape(draw))
-    print(draw[0:5])
     knn_colors = get_knn_for_colors_list(draw)
     # knn_colors = []
     hex_vals = list()

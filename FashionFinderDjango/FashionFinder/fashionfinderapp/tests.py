@@ -1,8 +1,12 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 from .models import User
-# Create your tests here.
-
+from django.conf import settings as DjangoSettings
+import ImgPredMicroservice.upload_piece_to_mongo as MongoHandler 
+import ImgPredMicroservice.class_predict as ImgPredClassPredictHandler
+import ImgPredMicroservice.color_predict as ImgPredColorPredictHandler
+import PIL
+import io
 class Tests(TestCase):
     def setUp(self):
         self.client = Client()
@@ -12,7 +16,7 @@ class Tests(TestCase):
         u.save()
         self.User = u
 
-
+    # Test that fashion finder responds to 
     def test_FF(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -24,9 +28,9 @@ class Tests(TestCase):
         self.assertEqual(us.id, self.User.id)
 
 
-    def test_home_page(self):
-        response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
+    # def test_home_page(self):
+    #     response = self.client.get(reverse('home'))
+    #     self.assertEqual(response.status_code, 200)
 
     
     def test_index(self):

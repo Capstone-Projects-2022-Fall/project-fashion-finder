@@ -48,7 +48,6 @@ def predict(request):
         im = Image.open(f)
         img_bytes = io.BytesIO()
         im.save(img_bytes, format='JPEG')
-        # mongo_data['img_data'] = img_bytes
         mongo_doc = create_user_fashion_piece(mongo_data, img_bytes)
 
         if(mongo_doc is not None):

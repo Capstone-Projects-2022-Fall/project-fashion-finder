@@ -219,38 +219,6 @@ const selectionStyle = {
     }
 }
 
-class Search extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ''};
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        window.location.replace('/?search=' + this.state.value)
-    }
-
-    render() {
-        return (
-            <>
-                <SearchStyle />
-                <div className="searchContainer"> 
-                    <form onSubmit={this.handleSubmit}>
-                        <input placeholder="Search for items..." className="searchInput" onChange={this.handleChange} />
-                    </form>
-                </div>
-            </>
-        );
-    };
-};
-
 const ItemPost = (props) => {
     const redirect = () => {
         window.location.replace('/item/' + props.id)
@@ -267,23 +235,17 @@ const ItemPost = (props) => {
     </div>;
 };
 
-const WardobeItems = (props) => {
-    return (
-        <>
-            <PostStyle />
-            <Search />
-            { 
-                props.items.map((item) => {
-                    const imgUrl = item.hasOwnProperty("picture") ? item.picture.url : "" //item
 
-                    return (
-                       <ItemPost key={recipe.id} id={item.id} title={""} user={item.owner.username} desc={""} img={imgUrl} />
-                    )
-                }) 
+const HomeStyle = () => {
+    return (
+        <style> {`
+            .wardrobe-and-recommendations-container {
+                display: flex;
             }
-        </> 
+        `}</style>
     );
 }
+
 
 const Home = () => {
     const [elementToDisplay, setElementToDisplay] = useState("");
@@ -300,25 +262,17 @@ const Home = () => {
     const showComplementaryItems = () => {
       //Show Recommendations: complementary Items
     }
+
     return (
         <Navbar loggedIn={(user_id !== null)} user_id={user_id}>
-            <div style={selectionStyle.container}>
 
-
-                <button style={selectionStyle.btn} onClick={showWardrobe}>Wardrobe</button>
-                <button style={selectionStyle.btn} onClick={showSimilarItems}>Similar Items</button>
-                <button style={selectionStyle.btn} onClick={showComplementaryItems}>Complementary Items</button>
-        
-                <div className="Home">
-                {elementToDisplay}
-                </div>
-             
-
+            <HomeStyle/>
+            <div className="wardrobe-and-recommendations-container">
+                <Wardrobe>
+                </Wardrobe>
 
             </div>
-            <Wardrobe>
             
-            </Wardrobe>
         </Navbar>
 
     );

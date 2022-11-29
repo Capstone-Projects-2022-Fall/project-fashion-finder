@@ -130,8 +130,7 @@ def logout_view(request):
     :rtype: An Http response.
     """
     django_logout(request)
-    return HttpResponse(render_to_string('registration/login.html', {
-    }))
+    return HttpResponseRedirect('/accounts/login')
 
 def register(request):
     """

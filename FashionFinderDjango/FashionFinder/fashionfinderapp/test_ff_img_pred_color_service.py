@@ -46,11 +46,11 @@ class TestImgPredMicroserviceColorService(TestCase):
         rgb = [255, 0, 0]
         hex = ImgPredColorPredictHandler.rgb_to_hex(rgb[0], rgb[1], rgb[2])
         self.assertEqual(hex, 'FF0000')
-    def test_rgb_to_hex_red(self):
+    def test_rgb_to_hex_blue(self):
         rgb = [0, 255, 0]
         hex = ImgPredColorPredictHandler.rgb_to_hex(rgb[0], rgb[1], rgb[2])
         self.assertEqual(hex, '00FF00')
-    def test_rgb_to_hex_red(self):
+    def test_rgb_to_hex_green(self):
         rgb = [0, 255, 0]
         hex = ImgPredColorPredictHandler.rgb_to_hex(rgb[0], rgb[1], rgb[2])
         self.assertEqual(hex, '00FF00')

@@ -51,10 +51,6 @@ class FFViewsIntegrationTests(TestCase):
         self.assertEqual(http_res.status_code, 301)
         self.assertEqual(http_res.url, '/accounts/login/')
 
-    def test_unauthenticated_user_register(self):
-        from urllib.parse import urlencode
-        data = urlencode({'username':'foobar', 'password':'password'})
-
 
     def test_unauthenticated_user_login_correct_password(self):
         from urllib.parse import urlencode

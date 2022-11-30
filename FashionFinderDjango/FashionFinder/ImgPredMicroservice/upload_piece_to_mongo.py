@@ -84,6 +84,11 @@ def get_user_fashion_piece(piece_id = None, user_id = None, user_name = None):
 			]}
 		)
 		user_piece = user_pieces[0]
+
+	if(user_piece == None):
+		# Check the recs_collection, only indexed by id
+		user_piece = recs_collection.find_one({"_id":ObjectId(str(piece_id))})
+
 	return user_piece
 
 def get_random_labeled_fashion_piece():
@@ -110,7 +115,7 @@ def add_piece_to_users_liked_pieces(user_id, username, piece_id):
 	result_cursor = likes_collection.find({ 'username': username, 'user_id': user_id })
 	
 	create_new_doc_flag = True
-	for result in result_cursor:
+	for _ in result_cursor:
 		create_new_doc_flag = False
 		# print(result['_id'])
 	if(create_new_doc_flag):
@@ -118,7 +123,7 @@ def add_piece_to_users_liked_pieces(user_id, username, piece_id):
 		likes_doc = {}
 		likes_doc['username'] = username
 		likes_doc['user_id'] = user_id
-		likes_doc['pieces'] = [(piece_id)]
+		likes_doc['pieces'] = [piece_id]
 		likes_collection.insert_one(likes_doc)
 	else:
 		doc = likes_collection.update_one(
@@ -127,6 +132,28 @@ def add_piece_to_users_liked_pieces(user_id, username, piece_id):
 	)
 	return
 
+def get_user_liked_fashion_pieces(user_id, username):
+	db_handle, client = get_db_default_handle()
+	db = client.fashion_finder_db
+	likes_collection = db.userLikedPieces
+	rec_collection = db.LabeledFashionPiece
+	cur = likes_collection.find({ 'username': username, 'user_id': user_id })
+	results = list(cur)
+	if(len(results)==0):
+		print("Empty cursor")
+		return None
+	elif(len(results)>1):
+		print("More than one document found for likes. Invariant broken")
+		return None
+	else:
+		doc = results[0]
+		liked_ids = doc['pieces']
+		liked_ids = [ObjectId(str(piece_id)) for piece_id in liked_ids]
+		liked_pieces = rec_collection.find({'_id': {'$in':liked_ids}})
+		print(liked_pieces)
+		return liked_pieces
+		# for rec in rec_collection:
+			# print(rec)
 
 
 

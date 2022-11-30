@@ -153,7 +153,7 @@ class Wardrobe extends React.Component {
     }
 
 	componentDidMount() {
-		fetch("http://localhost:8000/async/wardrobe")
+		fetch("/async/wardrobe")
 		.then(response => response.json())
 		.then(json => this.setState({loading: false, items: json}))
 	}
@@ -166,12 +166,12 @@ class Wardrobe extends React.Component {
 		console.log("Rec pieces source OID")
 		this.setState({rec_loading: true, rec_items: []})
 		
-		fetch("http://localhost:8000/async/recommendations/" + event.target.value)
+		fetch("/async/recommendations/" + event.target.value)
 		.then(response => response.json())
 		.then(json => this.setState({selected_oid: event.target.value, rec_loading: false, rec_items: json.recs}))
 
 		this.setState({rec_comp_loading: true, rec_comp_items: []})
-		fetch("http://localhost:8000/async/recommendations/complementary/" + event.target.value)
+		fetch("/async/recommendations/complementary/" + event.target.value)
 		.then(response => response.json())
 		.then(json => this.setState({rec_comp_loading: false, rec_comp_items: json.recs}))
 		

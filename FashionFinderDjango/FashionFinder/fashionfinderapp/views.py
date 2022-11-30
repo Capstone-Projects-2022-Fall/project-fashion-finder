@@ -21,12 +21,12 @@ from bson.objectid import ObjectId
 
 from fashionfinderapp.models import *
 from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm, SignInForm
-from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations, get_complementary_recommendation
+from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations, get_complementary_recommendation, get_random_labeled_fashion_piece, get_labeled_fashion_piece, add_piece_to_users_liked_pieces
 # Create your views here.
 
 @ensure_csrf_cookie
 def index(request):
-    """
+    """e
     Default Page, serves as home page for application.
 
     :return: Index.html page.
@@ -37,6 +37,45 @@ def index(request):
             "user_id": json.dumps(request.user.id)
         })
     }))
+
+@login_required
+def discover(request):
+    """
+    Discover page, where users can like/dislike random pieces
+    :return: HttpResponse
+    """
+    return HttpResponse(render_to_string('html/discover.html', {
+        "json": json.dumps({
+            "user_id": json.dumps(request.user.id)
+        })
+    }))
+
+@login_required
+def async_discover(request):
+    """
+    Helper route for discover page. Returns ID of random image and json data of descriptor.
+    :return: JsonRespoonse
+    """
+    agg_docs = get_random_labeled_fashion_piece()
+    doc = None
+    for mongo_doc in agg_docs:
+        doc = save_mongo_img_data_to_static_dir(mongo_doc)
+        break
+
+    return JsonResponse(data={'rec':doc})
+
+@login_required
+def async_discover_like(request, piece_id):
+    """
+    Helper route for discover page. Registers a users liked fashion pieces 
+    :return: JsonResponse
+    """
+    user_id = request.user.id
+    username = request.user.username
+    mongo_doc = get_labeled_fashion_piece(piece_id)
+    add_piece_to_users_liked_pieces(user_id, username, piece_id)
+    return JsonResponse(data={'sucess': 'True', 'errors': []})
+
 
 
 def pieces(request):

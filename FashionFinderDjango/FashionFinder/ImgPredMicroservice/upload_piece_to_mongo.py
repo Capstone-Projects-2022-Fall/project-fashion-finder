@@ -55,6 +55,8 @@ def create_user_fashion_piece(data, img_bytes):
 		return None
 	return fashion_piece_doc
 
+
+
 def insert_user_fashion_piece(mongo_doc):
 	db_handle, client = get_db_default_handle()
 	db = client.fashion_finder_db
@@ -83,6 +85,51 @@ def get_user_fashion_piece(piece_id = None, user_id = None, user_name = None):
 		)
 		user_piece = user_pieces[0]
 	return user_piece
+
+def get_random_labeled_fashion_piece():
+	db_handle, client = get_db_default_handle()
+	db = client.fashion_finder_db
+	recs_collection = db.LabeledFashionPiece
+	agg_result = recs_collection.aggregate([{ '$sample': { 'size': 1 } }])
+	return agg_result
+
+
+def get_labeled_fashion_piece(piece_id):
+	db_handle, client = get_db_default_handle()
+	db = client.fashion_finder_db
+	recs_collection = db.LabeledFashionPiece
+	result = recs_collection.find_one({'_id': ObjectId(str(piece_id))})
+	return result
+
+def add_piece_to_users_liked_pieces(user_id, username, piece_id):
+	db_handle, client = get_db_default_handle()
+	db = client.fashion_finder_db
+	likes_collection = db.userLikedPieces
+	print(user_id, username, piece_id)
+
+	result_cursor = likes_collection.find({ 'username': username, 'user_id': user_id })
+	
+	create_new_doc_flag = True
+	for result in result_cursor:
+		create_new_doc_flag = False
+		# print(result['_id'])
+	if(create_new_doc_flag):
+		
+		likes_doc = {}
+		likes_doc['username'] = username
+		likes_doc['user_id'] = user_id
+		likes_doc['pieces'] = [(piece_id)]
+		likes_collection.insert_one(likes_doc)
+	else:
+		doc = likes_collection.update_one(
+		{ 'username': username, 'user_id': user_id },
+		{ '$push': { 'pieces': piece_id} }
+	)
+	return
+
+
+
+
 
 def get_complementary_clothing_types(class_list=list()):
 	if class_list == list():

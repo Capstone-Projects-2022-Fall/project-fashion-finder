@@ -13,6 +13,9 @@ urlpatterns = [
     path('accounts/login/', views.login, name = 'login'),
     path('accounts/logout/', views.logout_view, name = 'logout'),
     path('accounts/register/', views.register, name = 'register'),
+    path('discover/', views.discover, name='discover'),
+    path('async/discover/', views.async_discover, name='async_discover'),
+    path('async/discover/like/<piece_id>', views.async_discover_like, name='async_discover_like'),
 
     path('accounts/', include('django.contrib.auth.urls')),
 

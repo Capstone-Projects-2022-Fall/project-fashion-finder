@@ -93,6 +93,9 @@ const Navbar = ({children, loggedIn: _loggedIn}) => {
                     <li className="nav-item">
                         <a href="/accounts/logout/" className="nav-link">Logout</a>
                     </li>
+                    <li className="nav-item">
+                        <a href="/discover" className="nav-link">Discover</a>
+                    </li>
                     </>}
                     {!loggedIn && <>
                     <li className="nav-item">

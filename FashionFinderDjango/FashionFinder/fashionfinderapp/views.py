@@ -300,8 +300,19 @@ def wardrobe_json(request):
         print(request.user.id)
         print(request.user.username)
         recs = get_wardrobe(user_id, username)
-        recs = list(recs)
+        
+        if recs != None:
+            recs = list(recs)
+        else:
+            recs = list()
+
         likes = get_user_liked_fashion_pieces(user_id, username)
+        
+        if likes != None:
+            likes = list(likes)
+        else:
+            likes = list()
+
         # likes = list(likes)
         recs.extend(likes)
 

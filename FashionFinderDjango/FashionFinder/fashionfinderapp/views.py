@@ -21,7 +21,7 @@ from bson.objectid import ObjectId
 
 from fashionfinderapp.models import *
 from fashionfinderapp.forms import RegistrationForm, UploadImgForPredMicroserviceForm, SignInForm
-from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations, get_complementary_recommendation, get_random_labeled_fashion_piece, get_labeled_fashion_piece, add_piece_to_users_liked_pieces
+from ImgPredMicroservice.upload_piece_to_mongo import get_wardrobe, get_recommendations, get_complementary_recommendation, get_random_labeled_fashion_piece, get_labeled_fashion_piece, add_piece_to_users_liked_pieces, get_user_liked_fashion_pieces
 # Create your views here.
 
 @ensure_csrf_cookie
@@ -72,12 +72,17 @@ def async_discover_like(request, piece_id):
     """
     user_id = request.user.id
     username = request.user.username
-    mongo_doc = get_labeled_fashion_piece(piece_id)
+    # mongo_doc = get_labeled_fashion_piece(piece_id)
     add_piece_to_users_liked_pieces(user_id, username, piece_id)
     return JsonResponse(data={'sucess': 'True', 'errors': []})
 
 
-
+def async_liked_pieces(request):
+    user_id = request.user.id
+    username = request.user.username
+    recs = get_user_liked_fashion_pieces(user_id, username)
+    recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
+    
 def pieces(request):
     """
     A page for showing the current pieces in the database
@@ -110,6 +115,8 @@ def user(request, user_id=None):
             "user_name": json.dumps(u.username)
             })
     }))
+
+
 
 #@login_required
 def login(request):
@@ -287,10 +294,17 @@ def wardrobe(request):
 
 @login_required
 def wardrobe_json(request):
+    user_id = request.user.id
+    username = request.user.username
     if(request.method == 'GET'):
         print(request.user.id)
         print(request.user.username)
-        recs = get_wardrobe(request.user.id, request.user.username)
+        recs = get_wardrobe(user_id, username)
+        recs = list(recs)
+        likes = get_user_liked_fashion_pieces(user_id, username)
+        # likes = list(likes)
+        recs.extend(likes)
+
         recs = [save_mongo_img_data_to_static_dir(rec) for rec in recs]
         context = {'recs':recs}
         template = loader.get_template('recs.html')

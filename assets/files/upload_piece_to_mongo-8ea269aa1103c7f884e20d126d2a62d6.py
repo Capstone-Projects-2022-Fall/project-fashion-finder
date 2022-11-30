@@ -73,11 +73,8 @@ def get_user_fashion_piece(piece_id = None, user_id = None, user_name = None):
 	recs_collection = db.LabeledFashionPiece
 	user_piece = None
 	if(piece_id is not None):
-		user_piece = user_collection.find_one({"_id":ObjectId(piece_id)})
-		print('Piece found')
-		print(user_piece['_id'])
+		user_piece = user_collection.find_one({"_id":ObjectId(str(piece_id))})
 	else:
-		print("no piece id")
 		user_pieces = user_collection.find(
 			{"$and": [
 				{'user_django_id' : user_id},
@@ -151,7 +148,7 @@ def get_complementary_clothing_types(class_list=list()):
 			if target_class == 'Shawl':
 				continue
 			if target_class == 'Bodycon':
-				for source_class in ['Jacket', 'Cardigan', 'Jacket', 'Sweater']:
+				for source_class in ['Jacket', 'Cardigan', 'Sweater']:
 					complementary_clothing_type_list.add(source_class)
 	if len(complementary_clothing_type_list) == 0:
 		# Safeguard unlabeled clothes
@@ -184,7 +181,6 @@ def get_wardrobe(user_id, user_name):
 	user_pieces = user_collection.find(	{"$and": [
 			{'user_django_id' : user_id},
 			{'user_django_name' : user_name},
-
 		]})
 	return user_pieces
 
@@ -208,21 +204,22 @@ def calculate_min_distance_from_banned_tones(rgb, tones=BANNED_TONES):
 
 def get_matching_color_list(h, s, v):
 	# Returns 13 colors that "match" the input color, based on the mathematical definitions of analagous, monochrome values
-	print("Get matching color list called with values (", h, s, v , ")")
 
 	matching_colors = list()
 	# Analagous colors
 	analagous_colors = [((h - 30) % 360, s, v), ((h + 30 ) % 360, s, v)]
 	matching_colors.extend(analagous_colors)
+	
+	minor_analagous_colors = [((h - 45) % 360, s, v), ((h + 45 ) % 360, s, v)]
+	matching_colors.extend(minor_analagous_colors)
 	complementary_colors = [((h - 180) % 360, s, v)]
 	matching_colors.extend(complementary_colors)
 	# split_complementary_colors = [((h - 150) % 360, s, v), ((h - 210) % 360, s, v) ]
 	# matching_colors.extend(split_complementary_colors)
-	saturation_complementary_colors = [(h,(s - diff) % 100,v) for diff in range (-40, 41, 20)]
+	saturation_complementary_colors = [(h,(s - diff) % 100,v) for diff in range (-40, 41, 20) if diff !=0]
 	matching_colors.extend(saturation_complementary_colors)
-	value_complementary_colors = [(h, s, (v-diff) % 100) for diff in range (-40, 41, 20) ]
+	value_complementary_colors = [(h, s, (v-diff) % 100) for diff in range (-40, 41, 20) if diff !=0]
 	matching_colors.extend(value_complementary_colors)
-	print(matching_colors)
 	return matching_colors
 
 
@@ -233,21 +230,15 @@ import colorsys
 def get_complementary_recommendation(piece_id = None, user_id = None, user_name = None, n = 10):
 	user_piece_rec = get_user_fashion_piece(piece_id, user_id, user_name)
 	dominant_rgb = get_dominant_color(user_piece_rec)
-	print("Dominant RGB ", dominant_rgb)
-	print(dominant_rgb)
 	labels = get_complementary_clothing_types(user_piece_rec['labels'])
 	dom_red = dominant_rgb[0] / 255
 	dom_green = dominant_rgb[1] / 255
 	dom_blue = dominant_rgb[2] / 255
 	dominant_hsv = colorsys.rgb_to_hsv(dom_red, dom_green , dom_blue)
-	print("Dominant HSV", dominant_hsv)
 	recommended_colors_hsv = get_matching_color_list(dominant_hsv[0] * 360, dominant_hsv[1] * 100, dominant_hsv[2] * 100)
 	
 	rec_rgb_raw = [colorsys.hsv_to_rgb(c[0] / 360,c[1] / 100 ,c[2] / 100) for c in recommended_colors_hsv]
 	rec_rgb = [[rgb[0] * 179, rgb[1] * 255, rgb[2] * 255] for rgb in rec_rgb_raw]
-	print("RGB tone recommendations")
-	for rec_rgb_item in rec_rgb:
-		print (rec_rgb_item)
 	# rec_rgb = rec_rgb_raw
 	db_handle, client = get_db_default_handle()
 	db = client.fashion_finder_db
@@ -678,7 +669,6 @@ def get_recommendations(piece_id = None, user_id = None, user_name = None, n = 1
 	if 'Jeans' in labels:
 		labels.append('Chino')
 
-	print(rgb_0_weight, rgb_1_weight, rgb_2_weight)
 	agg_results = recs_collection.aggregate([
 		{
 			"$project": {

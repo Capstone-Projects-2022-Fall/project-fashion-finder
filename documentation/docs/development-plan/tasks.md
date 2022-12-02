@@ -8,7 +8,7 @@ sidebar_position: 2
 
 2. Develop UI for Web Browser functionality
  
-3. Create UI for Mobile Device Functionality
+3. Create UI for Mobile Device Functionality (Scrapped)
 
 4. Make UI for creating login/register system<br />
   4.1. Develop login/sign-up page.<br />
@@ -30,14 +30,14 @@ sidebar_position: 2
   6.4. This will generate a similarity score and provide the final recommendation.<br />
   6.5. Recommended clothing items will be categorized and label the data as well.<br />
   
-7. Create layout for price analysis<br />
+7. Create layout for price analysis (Scrapped)<br />
   7.1. Taking data using API's for clothing prices.<br />
   7.2. Using data from Pinterest API, StockX API, and other online clothing API's.<br />
   7.3. The data that will be used for the application may have its pricing details attached.<br />
   
-8. Notifications for price alerts
+8. Notifications for price alerts (Scrapped)
 
-9. Create an account user interface so users can removed and see their liked items
+9. Create an account user interface so users can removed and see their liked items (Scrapped)
 
 
 

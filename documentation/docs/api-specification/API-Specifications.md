@@ -12,10 +12,10 @@ API Documentation Document:
 
 #### Methods:
 signUp()
-Purpose: to allow a user to login to their account
-Pre-Condition: The user must have an account
-Post-Condition: none
-Parameters:  email, password
+Purpose: to allow a user to sign up for an account
+Pre-Condition: None
+Post-Condition: None
+Parameters:  email, password, first name, last name
 Return Values: none
 Exceptions Thrown: Invalid Credentials
 signIn()

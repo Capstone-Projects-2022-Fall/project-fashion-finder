@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Requirements Gathering
 ### Functional Requirements
-- Fashion Finder will have a scrollable recommended clothing content feed
+- Fashion Finder will have a randomized clothing content feed
      - Content will be pulled from the Pinterest API
      - Users will be able to like content in the feed and it will be saved to their account
      - The more content a user likes the better Fashion Finder will tailor recommendations to that user
@@ -29,42 +29,52 @@ sidebar_position: 1
      - The user interface will be easily navigatable, and will give clear instructions from the beginning on how a user can recieve the best outfit suggestions.
      - If any errors do occur the user will be prompted of the error
 - Fashion Finder will be a progressive web application
-     - Fashion Finder will have a easy to use UI on a web browser and a mobile app
-- Fashion Finder will have price tracking for users that an item has liked and is interested in buying
-     - When an item that a user has liked drops to a price that is recognized as a reasonable price by our price analysis tool the user will recieve a notification that it is a good time to buy that product
-     - All price tracking will be saved to our database and will begin as soon as a user likes an item suggesting that they might purchase that item.
-- Fashion Finder will use machine learning to constantly recreate a users content feed, and suggestion feed
-     - The more pictures that a user either uploads or likes on the infinite Pinterest content feed, the further there results will be tailored based off that data
-     - Individual clothing or wardrobe suggestions will be constantly different as long as a user continues to add liked clothing to their account.
+     - Fashion Finder will have a easy to use UI on a web browser.
+- Fashion Finder will use machine learning and big data to find similar items and complementary items
+     - Individual clothing or wardrobe suggestions will be personalized to the users upload files.
 
  &nbsp;   In order to create the requirements listed in this document our team had to gather information relating to the issues an individual commonly faces when trying to find new clothing and outfit suggestions.  Firstly a user typically shops on multiple websites, therefore the suggestions on each of those websites are completely different and typically based just off the last few items that they have browsed.  For this reason Fashion Finder takes a different approach by collecting data and saving it to a users account on every item that they have liked for the time-being on their Fashion Finder account.  Another issue users typically face is finding items that go with a specific item that they already own.  To resolve this issue Fashion Finder provides a feature to upload clothing that they own and add that to their Fashion Finder account wardrobe.  Based off the items they already own suggestions can be made to match their current clothing.  
      
-&nbsp;    From the analysis our group conducted users also face issues when trying to find the best price of an item.  For the majority of individuals finding a cheap and cost efficient way to shop is something that they are all interested in.  For this reason Fashion Finder provides a price analysis tool for users to know how often the price of an item flucuates and to alert them on the best possible time to purchase an item.  
 
 ## Top-Level Design
 1. Create progressive web app UI
 2. Develop UI for Web Browser functionality
-3. Create UI for Mobile Device Functionality
-4. Make UI for creating login/register system
+3. Make UI for creating login/register system
 5. Create layout for content feed where users can like items
-6. Create layout for suggestions feed that will be recommended to users
-7. Create layout for price analysis 
-8. Notifications for price alerts
-9. Create an account user interface so users can removed and see their liked items
+6. Create layout for suggestions feed that will be recommended to users based on liked/uploaded items
 
 ## Detailed Design
+To deliver the above functionality, the app will use Django, React.js, and MongoDB. Additionally, Webpack will be used to compile React.js code and Selenium will be used for automated testing.
 
+Django will be responsible for...
+* Authenticating users
+* Creation of new users
+* Handling uploads
+* Hosting static images to be served to the end user
+* Hosting compiled js to be served to the end user
+* Serve as middle-man between MongoDB and the end user.
+  
+MongoDB will be responsible for...
+* Storing a new users fashion piece
+* Storing a users votes on recommendation pieces.
+* Storing all reference images
+* Providing an aggregation pipeline for recommendations of similar items
+* Providing an aggregation pipeline for recommendations of complementary items
 
+React.js will be responsible for...
+* Providing asynchronous behavior on the front end
+* Displaying user images
+* Providing interfaces for the user to interact with
 ## Tests
 
 ### Unit Tests
 
-The Python Standard Library unittest module will be used to validate template rendering.
+The Django test library will be used to perform units tests on the business logic in the Fashion Finder app and the Image prediction microservice app. 
 
 ### Integration
 
-The Postman API platform will be used to test HTTP requests.
+Integrations tests will be implemented using Djangos test library. Specifically, they will use the `Django.test.Client` class to emulate the end user
 
 ### Acceptance
 
-Use Case Acceptance testing will be conducted to evaluate user experience.
+Acceptance testing will be performed using Selenium. The functionality that is tested can be found in the acceptance-testing doc.

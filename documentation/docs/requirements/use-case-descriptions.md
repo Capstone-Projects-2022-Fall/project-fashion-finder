@@ -22,10 +22,10 @@ sequenceDiagram
     U->>+F: Requests route /upload
     U->>+DFS: Uploads file
     U->>F: GET /home
-    F->>DC: Get /async/wardrobe
-    DC-->>F: JSON of User pieces
-    F-->>F: Renders HTML from JSON representation 
-    F-->>-U: Home Page presented
+    F->>+DC: Get /async/wardrobe
+    DC->>+F: JSON of User pieces
+    F->>+F: Renders HTML from JSON representation 
+    F->>+U: Home Page presented
 ```
 ## Use case 2: Item labeler
 
@@ -48,19 +48,19 @@ sequenceDiagram
     U->>+F: Requests route /upload
     F->>+U: Returns upload form
     U->>+DFS: Uploads file
-    DFS->DC: Notify of new upload
+    DFS->>+DC: Notify of new upload
     DC->>+DMC: Send image file
     DMC->>+DMC: Run palette detection
-    DMC->>DC: Redirect user to /home
-    DC->>F: User redirect
-    F->>U: Redirect to /home
-    U->>F: GET /home
-    F->>DC: Get /async/wardrobe
-    DC->>DB: Get pieces from UserFashionPiece collection
-    DB->>DC: Send pieces from USerFashionPiece collection.
-    DC-->>F: JSON of User pieces containing labels
-    F-->>F: Renders HTML from JSON representation containing labels
-    F-->>-U: Rendered home page returned to user, which contains colors
+    DMC->>+DC: Redirect user to /home
+    DC->>+F: User redirect
+    F->>+U: Redirect to /home
+    U->>+F: GET /home
+    F->>+DC: Get /async/wardrobe
+    DC->>+DB: Get pieces from UserFashionPiece collection
+    DB->>+DC: Send pieces from USerFashionPiece collection.
+    DC->>+F: JSON of User pieces containing labels
+    F->>++F: Renders HTML from JSON representation containing labels
+    F->>+U: Rendered home page returned to user, which contains colors
 
 
 
@@ -85,19 +85,19 @@ sequenceDiagram
     U->>+F: Requests route /upload
     F->>+U: Returns upload form
     U->>+DFS: Uploads file
-    DFS->DC: Notify of new upload
+    DFS->>+DC: Notify of new upload
     DC->>+DMC: Send image file
     DMC->>+DMC: Run palette detection
-    DMC->>DC: Redirect user to /home
-    DC->>F: User redirect
-    F->>U: Redirect to /home
-    U->>F: GET /home
-    F->>DC: Get /async/wardrobe
-    DC->>DB: Get pieces from UserFashionPiece collection
-    DB->>DC: Send pieces from USerFashionPiece collection.
-    DC-->>F: JSON of User pieces containing colors
-    F-->>F: Renders HTML from JSON representation containing colors
-    F-->>-U: Rendered home page returned to user, which contains colors
+    DMC->>+DC: Redirect user to /home
+    DC->>+F: User redirect
+    F->>+U: Redirect to /home
+    U->>+F: GET /home
+    F->>+DC: Get /async/wardrobe
+    DC->>+DB: Get pieces from UserFashionPiece collection
+    DB->>+DC: Send pieces from USerFashionPiece collection.
+    DC->>+F: JSON of User pieces containing colors
+    F->>+F: Renders HTML from JSON representation containing colors
+    F->>+U: Rendered home page returned to user, which contains colors
 
 
 ```
@@ -119,29 +119,28 @@ sequenceDiagram
     participant DFS as Django File Server
     participant DB as MongoDB
 
-    U-->+F: Upload file or like/dislike from Discover page
-    F-->+DC: Add item to user wardrobe
-    U-->+F: GET /home
-    F-->+DC: GET /async/wardrobe
-    DC-->+DB: Get UserFashionPiece collection items
-    DB-->+DC: Return UserFashionPiece collection items
-    DC-->+DFS: Store local copy of image data
-    DFS-->+DC: Indicate success or failure on storage 
-    DC-->+F: Return JSON of Users pieces
-    F-->+F: Renders HTML from JSON
-    F-->U: HTML is rendered on the users page
-    F-->DFS: Get static images
-    U-->F: Select an item from wardrobe
-    F-->DC: GET /async/recommendations/<piece_id>
-    DC-->DB: Call MongoDB aggregation pipeline for recommendations
-    DB-->DC: Return 10 Mongo documents representing similar items
-    DC-->DFS: Store local copy of image data
-    DFS--> DC: Indicate success or failure on storage
-    DC-->F: Return JSON of Mongo documents, minus image data
-    F-->DFS: Get static images for recommendations
-    DFS-->F: Serve static images
-    F-->U: Renders images on DOM in "Pieces like this" section.
-
+    U->>+F: Upload file or like/dislike from Discover page
+    F->>+DC: Add item to user wardrobe
+    U->>+F: GET /home
+    F->>+DC: GET /async/wardrobe
+    DC->>+DB: Get UserFashionPiece collection items
+    DB->>+DC: Return UserFashionPiece collection items
+    DC->>+DFS: Store local copy of image data
+    DFS->>++DC: Indicate success or failure on storage 
+    DC->>+F: Return JSON of Users pieces
+    F->>+F: Renders HTML from JSON
+    F->>+U: HTML is rendered on the users page
+    F->>+DFS: Get static images
+    U->>+F: Select an item from wardrobe
+    F->>+DC: GET /async/recommendations/<piece_id>
+    DC->>+DB: Call MongoDB aggregation pipeline for recommendations
+    DB->>+DC: Return 10 Mongo documents representing similar items
+    DC->>+DFS: Store local copy of image data
+    DFS->>+ DC: Indicate success or failure on storage
+    DC->>+F: Return JSON of Mongo documents, minus image data
+    F->>+DFS: Get static images for recommendations
+    DFS->>++F: Serve static images
+    F->>+U: Renders images on DOM in "Pieces like this" section.
 ```
 ## Use case 5: Finding complementary items
 A user navigates to Fashion Finder and is fully authenticated.
@@ -170,18 +169,18 @@ sequenceDiagram
     DFS-->+DC: Indicate success or failure on storage 
     DC-->+F: Return JSON of Users pieces
     F-->+F: Renders HTML from JSON
-    F-->U: HTML is rendered on the users page
-    F-->DFS: Get static images
-    U-->F: Select an item from wardrobe
-    F-->DC: GET /async/recommendations/complementary/<piece_id>
-    DC-->DB: Call MongoDB aggregation pipeline for complementary recommendations
-    DB-->DC: Return 10 Mongo documents representing similar items
-    DC-->DFS: Store local copy of image data
-    DFS--> DC: Indicate success or failure on storage
-    DC-->F: Return JSON of Mongo documents, minus image data
-    F-->DFS: Get static images for complementary recommendations
-    DFS-->F: Serve static images
-    F-->U: Renders images on DOM in "Pieces that would go well with this" section.
+    F-->+U: HTML is rendered on the users page
+    F-->+DFS: Get static images
+    U-->+F: Select an item from wardrobe
+    F-->+DC: GET /async/recommendations/complementary/<piece_id>
+    DC-->+DB: Call MongoDB aggregation pipeline for complementary recommendations
+    DB-->+DC: Return 10 Mongo documents representing similar items
+    DC-->+DFS: Store local copy of image data
+    DFS-->+ DC: Indicate success or failure on storage
+    DC-->+F: Return JSON of Mongo documents, minus image data
+    F-->+DFS: Get static images for complementary recommendations
+    DFS-->+F: Serve static images
+    F-->+U: Renders images on DOM in "Pieces that would go well with this" section.
 
 ```
 ## Use case 6: Liking / Dislking items  
@@ -203,18 +202,18 @@ sequenceDiagram
     participant DB as MongoDB
     U-->+F: GET /discover
     F-->+DC: GET /discover
-    DC-->DB: Get random piece from LabeledFashionPiece collection
-    DB-->DC: Return Mongo Doc of random piece
-    DC-->DFS: Store image in local file system
-    DFS-->DC: Indicate success of storage operation
-    DC-->F: Return JSON with image file path
-    F-->DFS: Get image from file server
-    DFS-->F: Send image
-    F-->U: Update DOM with new image
-    U-->F: Like piece with id <piece_id>
-    F--> DC: POST /async/like/<piece_id>
-    DC--> DB: Add piece_id to UserLikedPieces collection for the given user
+    DC-->+DB: Get random piece from LabeledFashionPiece collection
+    DB-->+DC: Return Mongo Doc of random piece
+    DC-->+DFS: Store image in local file system
+    DFS-->+DC: Indicate success of storage operation
+    DC-->+F: Return JSON with image file path
+    F-->+DFS: Get image from file server
+    DFS-->+F: Send image
+    F-->+U: Update DOM with new image
+    U-->+F: Like piece with id <piece_id>
+    F-->+DC: POST /async/like/<piece_id>
+    DC-->+DB: Add piece_id to UserLikedPieces collection for the given user
     DB-->DC: Indicate succcess of operation 
-    DC-->F: Return JSON indicating success
-    F-->U: Update DOM with new image and repeat 
+    DC-->+F: Return JSON indicating success
+    F-->+U: Update DOM with new image and repeat 
 ```

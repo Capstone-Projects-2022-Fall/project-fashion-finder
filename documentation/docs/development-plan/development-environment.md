@@ -182,4 +182,4 @@ The Django Testing Framework is used to implement unit tests and integration tes
 ### - Selenium
 The Selenium Testing Framework is used to implement functional tests.
 ## Deployment Platform
-The final deployment will be hosted on an AWS EC2 server. SQLite will be hosted on the same machine for user authentication, and MongoDB atlas will be used to create a databse.
+The final deployment will be hosted on an AWS EC2 server. SQLite will be hosted on the same machine for user authentication, and MongoDB atlas will be used to host User data and reference Data.

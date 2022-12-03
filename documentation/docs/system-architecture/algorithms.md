@@ -24,26 +24,24 @@ conv_model = vgg16.VGG16(weights='imagenet', include_top=False, input_shape=(224
 for layer in conv_model.layers:
     layer.trainable = False
 
-# flatten the output of the convolutional part:
 # x = keras.layers.Dropout(0.25)(conv_model.output)
  
 x = keras.layers.Flatten()(conv_model.output)
-# three hidden layers}
 x = keras.layers.Dense(32, activation='relu')(x)
-# x = keras.layers.Dropout(0.5)(x)
 x = keras.layers.Dense(32, activation='relu')(x)
-# x = keras.layers.Dropout(0.5)(x)
 x = keras.layers.Dense(32, activation='relu')(x)
-# x = keras.layers.Dropout(0.5)(x)
 
 # x = keras.layers.Dense(64, activation='relu')(x)
-# final softmax layer with 40 categories
 predictions = keras.layers.Dense(len(CLASS_LIST), activation = 'sigmoid')(x)
-# creating the full model:
 full_model = keras.models.Model(inputs=conv_model.input, outputs=predictions)
 full_model.summary()
 
 ```
+
+#### Model Training
+The model was trained on the Deep Fashion dataset described above. In its training, it completed 100 epochs (or "passovers"), meaning that it trained on each of the individual images 100 times. Since the original dataset is well over 200,000 images, this process took over 72 hours to fully train. Thankfully, VGG 16 is capable of "transfer learning" meaning that the training could be stopped and restarted without losing the models computed weights. 
+
+
 ## Color Detection
 The color detection algorithm has several different components. 
 
@@ -79,8 +77,8 @@ Two items are considered similar **if and only if****
 
 The _Palette Similarity_ of IMG _target_ and _candidate_rec_ with 3 RGB values each, is calculated as follows
 
-For each of the colors in the _target_ IMG, calculate its similarity to a list of whites, greys, and skin tones to determine how much weight to give the color in the the recommendation. The similarity is calculated by the minimum euclidean distance between the (R,G,B) point of the _target_ IMG and the (R,G,B) point values list of color tones.
-
+For each of the colors in _target_ , calculate its similarity to a list of whites, greys, and skin tones to determine how much weight to give the color in the the recommendation. A color is considered less influential to match on if it is close to a white color, grey color, or a common skin tone color.
+The similarity is calculated by a weighted average of the minimum euclidean distance between the (R,G,B) points of the _target_ IMG and the (R,G,B) points of the _candidate_rec image.
 #### Mongo Pipeline
 The Mongo Pipeline can be described as followed.
 
@@ -95,4 +93,25 @@ The recommendation query can be found [here](../../../FashionFinderDjango/Fashio
 
 ### Complementary Items
 
-Complementary items recommendation is driven in a similar fashion to the "Similar Items" recommendation. The same Mongo Pipeline is used. However, before calling the pipeline, the hex values are modified into values that would be complementary to the inputted palette.
+Complementary items recommendation is driven in a similar fashion to the "Similar Items" recommendation. The same Mongo Pipeline is used. However, since their are multiple different colors that would be considered "complementary" to the dominant color of the image, we must calculate those values and then search for images which contain at least one of those complementary values.
+
+#### Complementary Color detection
+
+To determine complementary colors for a given input color, the first step is to represent the RGB values in HSV format (Hue, Saturation, Value).
+
+The relationships that were used to find complementary colors are to determine colors that are **Analagous**, **Monochromatic**, and **Complementary** to the given input color
+
+**Analagous**
+For a color to be analagous to an inputted color, it must have similar values for _Saturation_ and _Value_ properties, and its _Hue_ property should differ by roughly 30 degrees.
+![image](https://user-images.githubusercontent.com/47365682/205463915-a5cf0bc9-f634-4067-a5bd-16f1bd2ff212.png)
+
+
+
+**Monochromatic**
+For a color to be monochromatic to a given input color, it must have similar values for _Hue_ and _Value_ properties, with differening values for the _Saturation_ property. A color is considered to be monochromatic regardless of the difference in its _Saturation_ property.
+![image](https://user-images.githubusercontent.com/47365682/205463904-3dbbc011-c449-43ae-96b5-147d3c31df3d.png)
+
+**Complementary**
+For a color be complementary to a given input color, it must have similar values for _Saturation_ and _Value_ properties, and its _Hue_ property should differ by roughly 180 degrees
+![image](https://user-images.githubusercontent.com/47365682/205463949-86a9be87-7e26-40de-b36a-23a5695e2424.png)
+

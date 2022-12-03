@@ -1,3 +1,5 @@
+
+## Class Diagram for Django API Backend
 ```mermaid
 classDiagram
     class FashionPiece {

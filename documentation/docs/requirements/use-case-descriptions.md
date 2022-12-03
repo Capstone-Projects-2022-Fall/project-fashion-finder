@@ -59,7 +59,7 @@ sequenceDiagram
     DC->>+DB: Get pieces from UserFashionPiece collection
     DB->>+DC: Send pieces from USerFashionPiece collection.
     DC->>+F: JSON of User pieces containing labels
-    F->>++F: Renders HTML from JSON representation containing labels
+    F->>+F: Renders HTML from JSON representation containing labels
     F->>+U: Rendered home page returned to user, which contains colors
 
 

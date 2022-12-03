@@ -126,7 +126,7 @@ sequenceDiagram
     DC->>+DB: Get UserFashionPiece collection items
     DB->>+DC: Return UserFashionPiece collection items
     DC->>+DFS: Store local copy of image data
-    DFS->>++DC: Indicate success or failure on storage 
+    DFS->>+DC: Indicate success or failure on storage 
     DC->>+F: Return JSON of Users pieces
     F->>+F: Renders HTML from JSON
     F->>+U: HTML is rendered on the users page
@@ -136,10 +136,10 @@ sequenceDiagram
     DC->>+DB: Call MongoDB aggregation pipeline for recommendations
     DB->>+DC: Return 10 Mongo documents representing similar items
     DC->>+DFS: Store local copy of image data
-    DFS->>+ DC: Indicate success or failure on storage
+    DFS->>+DC: Indicate success or failure on storage
     DC->>+F: Return JSON of Mongo documents, minus image data
     F->>+DFS: Get static images for recommendations
-    DFS->>++F: Serve static images
+    DFS->>+F: Serve static images
     F->>+U: Renders images on DOM in "Pieces like this" section.
 ```
 ## Use case 5: Finding complementary items
@@ -189,7 +189,6 @@ They are able to navigate to a "Like/Dislike" page, where they will be prompted 
 They will be able to like or dislike different pieces
 The user will be able to view a list of their liked pieces
 
-![FashionFinderLogin](/img/Fashion Finder Login (1).png)
 ```mermaid
 sequenceDiagram
     title Use case 6: Liking / Disliking items

@@ -12,7 +12,7 @@ They uploads photos of each fashion piece they own.
 The user is then able to view their uploaded pieces
 ```mermaid
 sequenceDiagram
-    title Use case 1: Item tracker
+    title: Use case 1 -Item tracker
     actor U as User
     participant F as Fashion Finder React App
     %% participant DM as Fashion Finder Django ML Backend
@@ -37,7 +37,7 @@ These labels will tell the user the type of clothing for each image uploaded
 
 ```mermaid
 sequenceDiagram
-    title Use case 3: Item labeler
+    title: Use case 2 - Item labeler
     actor U as User
     participant F as Fashion Finder React App
     %% participant DM as Fashion Finder Django ML Backend
@@ -74,7 +74,7 @@ The user is then able to see their wardrobe with labels of the primary colors ap
 These labels will tell the user the primary "palette" of the fashion piece.
 ```mermaid
 sequenceDiagram
-    title Use case 3: Color labeler
+    title: Use case 3 - Color labeler
     actor U as User
     participant F as Fashion Finder React App
     %% participant DM as Fashion Finder Django ML Backend
@@ -110,7 +110,7 @@ They upload the fashion piece image to the Fashion Finder Database.
 They navigate to a "See more like this" section, where they can see other fashion pieces in the same categories and fashion pieces with similar color palettes. 
 ```mermaid
 sequenceDiagram
-    title Use case 4: Finding similar items
+    title: Use case 4 - Finding similar items
     actor U as User
     participant F as Fashion Finder React App
     %% participant DM as Fashion Finder Django ML Backend
@@ -150,7 +150,7 @@ For any of the items in their wardrobe, they can click on a "See items that woul
 They are then prompted with the most similar items, ranked by label similarity and color palette similarity. 
 ```mermaid
 sequenceDiagram
-    title Use case 5: Finding complementary items
+    title: Use case 5 - Finding complementary items
     actor U as User
     participant F as Fashion Finder React App
     %% participant DM as Fashion Finder Django ML Backend
@@ -191,7 +191,7 @@ The user will be able to view a list of their liked pieces
 
 ```mermaid
 sequenceDiagram
-    title Use case 6: Liking / Disliking items
+    title: Use case 6 - Liking / Disliking items
     actor U as User
     participant F as Fashion Finder React App
     %% participant DM as Fashion Finder Django ML Backend

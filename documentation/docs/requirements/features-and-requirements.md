@@ -44,7 +44,7 @@ A set of colors is considered complementary if the colors are not too similar to
 
 ## Liking / Disliking
 
-A user will be able to view the collection of 40,000 reference images and then "Like" or "Dislike" these images. The user is then able to see a page of their "Liked" images. For each item on this page, they will be able to select the item and see "Pieces like this" and "Pieces that would go well with this).
+A user will be able to view the collection of 40,000 reference images and then "Like" or "Dislike" these images. The user is then able to see their liked images on their home page. Similar to the uploaded pieces, they will be able to view both "Items like this" and "Items that would go well with this" for any of the liked images.
 
 ## Accounts
 
@@ -52,6 +52,8 @@ There will be a user system such that.
 
 A user will be able to
 * Create a new account with email, first name, last name, and password field
+* Upload content specific to their account
+* Like items specifc to their account
 * Sign out of their account
 * Sign back into their account
 

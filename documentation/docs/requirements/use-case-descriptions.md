@@ -6,10 +6,7 @@ sidebar_position: 5
 
 ## Use case 1: Item tracker  
 
-A user navigates to Fashion Finder and is fully authenticated
-They want to keep track of clothes in their closet.
-They uploads photos of each fashion piece they own.
-The user is then able to view their uploaded pieces
+A user navigates to Fashion Finder app and is fully authenticated. They want to keep track of clothes in their closet. They uploads photos of each fashion piece they own. The user is then able to view their uploaded pieces on their home page.
 ```mermaid
 sequenceDiagram
     title: Use case 1 -Item tracker
@@ -29,11 +26,7 @@ sequenceDiagram
 ```
 ## Use case 2: Item labeler
 
-A user navigates to Fashion Finder and is fully authenticated
-They have pictures of their closet and want to find out how many of each type of clothing they own
-They upload photos of each fashion piece they own.
-The user is then able to see their wardrobe with labels generated from a machine learning model
-These labels will tell the user the type of clothing for each image uploaded 
+A user navigates to Fashion Finder and is fully authenticated. They have pictures of their closet and want to find out how many of each type of clothing they own. They upload photos of each fashion piece they own. The user is then able to see their wardrobe with labels generated from a machine learning model. These labels will tell the user the type of clothing for each image uploaded, as well as serve as a data point for generating recommendations. 
 
 ```mermaid
 sequenceDiagram
@@ -67,11 +60,7 @@ sequenceDiagram
 ```
 ## Use case 3: Color labeler
 
-A user navigates to Fashion Finder and is fully authenticated
-They have pictures of their closet and want to find out how often different colors appear in their wardrobe.
-They upload photos of each fashion piece they own.
-The user is then able to see their wardrobe with labels of the primary colors appearing in each photo.
-These labels will tell the user the primary "palette" of the fashion piece.
+A user navigates to Fashion Finder and is fully authenticated They have pictures of their closet and want to find out how often different colors appear in their wardrobe. They upload photos of each fashion piece they own. The user is then able to see their wardrobe with labels of the primary colors appearing in each photo. These labels will tell the user the primary "palette" of the fashion piece as well as serve as a data point for recommendations.
 ```mermaid
 sequenceDiagram
     title: Use case 3 - Color labeler
@@ -104,10 +93,7 @@ sequenceDiagram
 
 
 ## Use case 4: Finding similar items
-A user navigates to Fashion Finder and is fully authenticated.
-They have a fashion piece that they like and want to find more items like it.
-They upload the fashion piece image to the Fashion Finder Database.
-They navigate to a "See more like this" section, where they can see other fashion pieces in the same categories and fashion pieces with similar color palettes. 
+A user navigates to Fashion Finder and is fully authenticated. They have a fashion piece that they like and want to find more items like it. They upload the fashion piece image to the Fashion Finder application. They are then able to view the image on their home page. The user is able to select to image and view an "Items like this" section, which will show them images of similar items.
 ```mermaid
 sequenceDiagram
     title: Use case 4 - Finding similar items

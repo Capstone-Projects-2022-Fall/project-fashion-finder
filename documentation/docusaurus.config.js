@@ -23,11 +23,7 @@ const main_template_jira_scripts = () => {
 const config = {
   /*TODO: Change to your project's title and tagline*/
   title: 'Fashion Finder',
-<<<<<<< Updated upstream
-  tagline: 'Personalized Clothing Recommendations',
-=======
   tagline: 'Your place for Fashion inspiration',
->>>>>>> Stashed changes
   /*Unless you move this website to a seperate repo don't change url and baseurl.*/
   url: 'https://'+process.env.ORG_NAME+'.github.io/',
   baseUrl: '/'+process.env.PROJECT_NAME+'/',

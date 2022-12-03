@@ -36,6 +36,7 @@ The user is then able to see their wardrobe with labels generated from a machine
 These labels will tell the user the type of clothing for each image uploaded 
 
 ```mermaid
+sequenceDiagram
     title Use case 3: Item labeler
     actor U as User
     participant F as Fashion Finder React App
@@ -72,6 +73,7 @@ They upload photos of each fashion piece they own.
 The user is then able to see their wardrobe with labels of the primary colors appearing in each photo.
 These labels will tell the user the primary "palette" of the fashion piece.
 ```mermaid
+sequenceDiagram
     title Use case 3: Color labeler
     actor U as User
     participant F as Fashion Finder React App

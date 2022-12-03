@@ -16,13 +16,16 @@ One of the core features of the application is that the user is able to upload i
 ## Label prediction
 Whenever a user uploads an image, that image will be processed through a machine learning pipeline.
 
-The model that the image will be processed through is loosely derived from VGG16, a machine learning kernel that is popular for image processing. Detail on the training of the file can be found [at this .ipynb file](../../../model/src/ModelTraining3.ipynb) and are covered in the system overview and system block diagram.
+The model that the image will be processed through is loosely derived from VGG16, a machine learning kernel that is popular for image processing. Detail on the training of the model can be found [at this .ipynb file](../../../model/src/ModelTraining3.ipynb) and are covered in the system overview and system block diagram.
 
-The user is able to then see labels (Ex. ["Blouse","Dress","Striped","Jeans","T-Shirt",...]) for each of their fashion pieces, allowing them to see at a glance what types of clothes they have in their closet.
+The user is able to then see labels (Ex. ["Blouse","Dress","Striped","Jeans","T-Shirt",...]) for each of their fashion pieces, allowing them to see at a glance what types of clothes and color palettes they have in their closet.
 ## Palette prediction
-Whenever a user uploads an image, that image will be processed through a sklearn-based color detection algorithm. The algorithm will determine where the subject is in an image, and determine the 3 most representatives colors of the image, or a palette.
+Whenever a user uploads an image, that image will be processed through an sklearn-based color detection algorithm. The algorithm will determine where the subject is in an image, and determine the 3 most representatives colors of the image, or a palette.
 
 The user is able to then see the palettes of their uploaded images, and determine whether their wardrobe is lacking in some color or to brain storm what colors go well together.
+
+## Discover Page based predictions
+When a user likes an image from our recommendation dataset of 40,000 images, that image will be added to the users wardrobe. All of these images have labels that were inherited from the Deep Fashion dataset. The color palette for all of these images were batch computed using the methods shown [at this .ipynb file](../../../model/src/ColorDetectionBatch.ipynb) and added to the MongoDB database. 
 
 ## Piece-wise Recommendations
 
@@ -41,7 +44,7 @@ A set of colors is considered complementary if the colors are not too similar to
 
 ## Liking / Disliking
 
-A user will be able to view the collection of 40,000 reference images and then "Like" or "Dislike" these images. The user is then able to see a page of their "Liked" images. For each item on this page, they will also be able to click buttons labeled "See Pieces Like this" and "See Complementary Pieces" to jump to a different page.
+A user will be able to view the collection of 40,000 reference images and then "Like" or "Dislike" these images. The user is then able to see a page of their "Liked" images. For each item on this page, they will be able to select the item and see "Pieces like this" and "Pieces that would go well with this).
 
 ## Accounts
 
@@ -53,3 +56,6 @@ A user will be able to
 * Sign back into their account
 
 Additionally, the passwords of the users will never be stored in plain text.
+
+### Seperation of Data
+The Fashion Finder application will separate the data of different users to ensure a private browsing experience. Users will only be able to see images that they have uploaded and images that they have liked. Users will not be able to see the images, labels, or color palettes of other users.

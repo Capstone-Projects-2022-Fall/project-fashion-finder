@@ -10,8 +10,9 @@ The application has several jobs in relation to data flow
 1. Handle user upload events
 2. Process user images with label prediction (through the ImgPredictionMicroservice) 
 3. Process user images with palette prediction (through the ImgPredictionMicroservice)
-4. Process CRUD actions on data of class **UserFashionPiece** through the mongo driver
+4. Process CRUD actions on data of class **UserFashionPiece** through the Mongo driver
 5. Process CRUD actions on data of class **User** through the djang auth driver
+6. Process CRUD actions on data of class **Vote** through the Mongo driver
 
 ### Img Pred
 The image prediction microservice takes in an image of format .jpg or .png of any size. It then processes the data as follows.
@@ -26,9 +27,8 @@ The Img Pred microservice will then return both the label and the color codes to
 
 ### Rec Eng.
 The recommendation engine takes in requests from the FF App and in turn calls a Mongo Aggregation pipeline.
-
-The recommendation engine is responsible for calculating the weights for each color in the source image.
-The recommendation engine is responsible for calculating complementatry colors to feed into the mongo aggregation pipeline.
+The recommendation engine is responsible for calculating the weights for each color in the source image. This means that the recommendation algorithm imposes opinions on the Mongo Aggregation pipeline depending on the colors that need to be matched. For example, the recommendation engine will assign weights such that the MongoDB aggregation pipeline assigns more importance to matching vibrant colors in the color palette than it assigns to near-black or near-white colors.  
+The recommendation engine is responsible for calculating complementatry colors to feed into the Mongo aggregation pipeline. This involves determining which of the colors in the color palette is the "dominant" color.
 
 ## Data Lakes
 ### User Pieces
@@ -37,3 +37,5 @@ Hosts the labels, color codes, and raw image data of users uploaded files.
 Hosts the labels, color codes, and raw image data of recommendation reference data files.
 ### Django Static
 Hosts static JPG/PNG files that have been cached due to calls for those files.
+## Votes
+Hosts the votes from different users representing the list of pieces that the user has liked

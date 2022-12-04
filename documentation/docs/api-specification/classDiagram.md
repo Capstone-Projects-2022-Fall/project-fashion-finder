@@ -6,9 +6,7 @@ sidebar_position: 3
 
 
 ```mermaid
-
 classDiagram
-
     class User {
         + String user_id
         + String username

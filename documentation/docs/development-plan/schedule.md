@@ -4,8 +4,7 @@ sidebar_position: 3
 
 # Schedule
 ```mermaid
-
- gantt
+gantt
     title Fashion Finder Gantt
     dateFormat  YYYY-MM-DD
    section Construction Phase

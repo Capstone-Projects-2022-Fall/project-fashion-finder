@@ -5,7 +5,6 @@ sidebar_position: 3
 # Schedule
 ```mermaid
 gantt
-    title Fashion Finder Gantt
     dateFormat  YYYY-MM-DD
    section Construction Phase
     MongoDB add images :         des5, 2022-09-22, 5d

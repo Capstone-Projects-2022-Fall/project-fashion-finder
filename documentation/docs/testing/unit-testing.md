@@ -12,23 +12,23 @@ This test suite (located at test_mongo_handler.py) contains all of the tests nec
 
 ### Tests
 * `test_create_and_insert_user_piece` 
-  * Tests that wer can create a Mongo doc representing a fashion piece and upload it
+  * Tests that wer can create a Mongo doc representing a fashion piece and upload it. Expected result is a newly created document in the collection.
 * `test_create_insert_and_get_user_piece` 
-  * Tests that we can retrieve an uploaded mongo doc representing a fashion piece.
+  * Tests that we can retrieve an uploaded mongo doc representing a fashion piece. Expected result is that the piece is retrieved if it exists
 * `test_create_user_piece` 
-  * Test that we can create a local copy of a mongo doc representing a fashion piece.
+  * Test that we can create a local copy of a mongo doc representing a fashion piece. Expected result is object of type MongoDocument
 * `test_get_complementary_clothing_types` 
-  * Tests the mapping for clothing suggestions, so that, for example, "Jackets" are not recommended when the input class is "Cardigan"
+  * Tests the mapping for clothing suggestions, so that, for example, "Jackets" are not recommended when the input class is "Cardigan". Expected result is the correct output for a giving input type.
 * `test_get_complementary_recommendations` 
-  * Tests the MongoDB aggregation for complementary recommendations
+  * Tests the MongoDB aggregation for complementary recommendations. Expected result is 10 pieces of with similar labels and complementary color palettes.
 * `test_get_dominant_color` 
-  * Tests the helper function that determines which of the palette colors is the "dominant" color
+  * Tests the helper function that determines which of the palette colors is the "dominant" color. Expected result is that the function picks the color which is furthest from any of the colors in the "banned colors" list
 * `test_get_matching_color_list` 
-  * Tests the helper function which performs the K-nearest-neighbors calculation
+  * Tests the helper function which performs the K-nearest-neighbors calculation. Expected result is 3 triple-valued tuples representing the centroids of each K-nearest-neighbor centroids
 * `test_get_recommendations` 
-  * Tests the MongoDB aggregation for similar item recommendations
+  * Tests the MongoDB aggregation for similar item recommendations. Expected result is 10 items similar in labels and color palettes
 * `test_get_wardrobe` 
-  * Tests the MongoDB query for getting fashion pieces belonging to a user.
+  * Tests the MongoDB query for getting fashion pieces belonging to a user. Expected result is all of the items belonging to that specific user.
 
 ## FF Img Pred Class Service Unit Tests
 This test suite (located at test_ff_img_pred_class_service.py) contains all of the tests necessary to test whether the model is properly hosted by the image prediction microservice. It also tests the helper functions of the class, ensuring that the colors and classes that are output are matching what is expected.
